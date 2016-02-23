@@ -1,0 +1,1917 @@
+<%@ Language=VBScript %>
+<%Option Explicit%>
+
+<html>
+<head>
+<title>ParStream-Jukebox</title>
+
+<hta:application id="PSJB" applicationName="ParStream-Jukebox"
+    border="thin"
+    borderStyle="static"
+    caption="yes"
+    contextMenu="no"
+    icon="..\images\parsons.ico"
+    innnerBorder="no"
+    maximizeButton="no"
+    minimizeButton="yes"
+    showInTaskbar="yes"
+    singleInstance="yes"
+    sysmenu="yes"
+    scroll="no"
+    selection="no"
+    nowrap
+    windowState="normal">
+</hta:application>
+
+<style>
+   body    {background-color:#FFF; font-family:Lucida Console;}
+  .txtarea {width:100%; border-width:0; font-family:Calibri; font-size:14px}
+  .pgbar   {width=100%;filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, 
+            StartColorStr='#CBD3EC',EndColorStr='#3E629E')}
+  #image   {float:center; background-image:background-attachment:fixed; padding: 10px;
+            height:75px; width:372px;}
+</style>
+
+<script language="VBScript">
+  Dim wwidth, wheight
+  wwidth  = 270
+  wheight = 150
+  window.resizeto wwidth, wheight
+  window.moveto (screen.width - wwidth) / 2, (screen.height - wheight) / 2
+  window.focus()
+</script>
+
+
+</object>
+<object ID="mEDE" CLASSID="CLSID:4FA9801C-53B7-4353-AA5F-373554F741B5" 
+   codebase="http://WIN-HCE1S23UAVP/ParStream/CabFiles/ParStreamClientProd.cab#version=1,0,0,9">
+</object>
+<object ID="MT" CLASSID="CLSID:D87995B5-4AA4-43CB-AD96-34CF3EC23D35"
+  CODEBASE="http://WIN-HCE1S23UAVP/ParStream/CabFiles/ParStreamMsg.CAB#version=1,0,0,0">
+</object>
+
+
+<script language="VBScript">
+
+' Display error message
+Function DisplayError(message)
+
+  MsgBox message, vbOKOnly + vbCritical, "Configuration (Error Code " & setupCode & ")"
+
+End Function
+
+'EDE Final Setup
+Function EdeFinalSetup()
+
+  pwBar.style.width = "100%"
+
+  Dim strX, intLX, NErr 
+  'Write Log File Footers
+  NErr = mEDE.WriteLogFileFooter("PRE")
+  LFile.WriteLine("NErr = mEDE.WriteLogFileFooter(""PRE"")")
+
+  strX = "END OF ParStream PRE HTA SESSION LOG. DATE: "
+  strX = strX & FormatDateTime(Date, 0)
+  strX = strX & " TIME: " & Time
+  strX = Trim(strX)
+  intLX = Len(strX)
+  LFile.WriteLine String(intLX, "=") & chr(13) & chr(10) & strX & chr(13) & chr(10) & String(intLX, "=")
+
+  LFile.Close
+  Set LFile = Nothing
+  Set objFS = Nothing
+
+End Function
+
+Function InitializeSetup()
+
+  'MsgBox "Entered ParStreamInitialSetup()..."
+  progressStatus = 1
+  If (gAppId > -1) Then
+    pwDelta = 100 / (65 + Ubound(activateLicenseGuids) + 1 + Ubound(deactivateLicenseGuids) + 1)
+  Else
+    pwDelta = 100 / 67
+  End If
+  'MsgBox "Entered ParStreamInitialSetup()...Step 1."
+
+  Dim EdeClientDir, objFS, objF
+
+  EdeClientDir = mEDE.ReplaceSysVar(gcEdeClientDir)
+  'MsgBox "Entered ParStreamInitialSetup()... EdeClientDir = " &  EdeClientDir
+  Set objFS = CreateObject("Scripting.FileSystemObject")
+  If objFS.FolderExists(EdeClientDir) = False Then
+    Set objF = objFS.CreateFolder(EdeClientDir)
+  End if
+  'MsgBox "Entered ParStreamInitialSetup()...Step 2."
+  Set LFile = objFS.OpenTextFile(EdeClientDir & "\ParStreamHTA.log", 8, True)
+
+  strX = "BEGINNING OF ParStream PRE HTA SESSION LOG. DATE: "
+  strX = strX & FormatDateTime(Date, 0)
+  strX = strX & " TIME: " & Time
+  strX = Trim(strX)
+  intLX = Len(strX)
+  LFile.WriteLine String(intLX, "-") & chr(13) & chr(10) & strX & chr(13) & chr(10) & String(intLX, "-")
+
+  'MsgBox "Exiting ParStreamInitialSetup()..."
+
+End Function
+
+Sub RefreshDisplay()
+
+  Dim strCommand
+  'strCommand = "%COMSPEC% /c echo.>null"
+  strCommand = "%COMSPEC% /c echo."
+  'wshShell.Run strCommand, 0, True     'Hide window and activate another window and wait
+  pwMsg.Focus
+  pwBar.Focus
+
+End Sub
+
+Function UP(strMsg)
+
+  If (mEDE.GetHTAHaltFlag = 0) Then
+    If strMsg <> "" Then UPMain "Run", strMsg
+  End If
+
+End Function
+
+Function UPMain(strCmd, strMsg)
+
+  Select Case strCmd
+    Case "Init"
+      pwBar.style.width = "0%"
+      pwMsg.value = ""
+    Case "Run"
+      If InStr(UCase(strMsg), "STARTING APPLICATION...") > 0 Then
+        pwBar.style.width = "100%"
+      End If
+
+      If Not pwBar.style.width = "100%" Then
+        pwBar.style.width = Left(pwBar.style.width, Len(pwBar.style.width) - 1) + _
+                                  pwDelta & "%"
+      Else
+        'pwBar.style.width = "0%"
+      End If            
+    Case "End"
+      pwBar.style.width = "100%"
+      progressStatus = 0
+      If (mEDE.GetHTAHaltFlag = 0) Then
+        retvTimer = window.setTimeout("self.close", 2000, "VBScript")
+      End If
+  End Select
+
+  If strMsg <> "" Then 
+    If pwMsg.value = "" Then
+      pwMsg.value = strMsg
+    Else
+      pwMsg.value = pwMsg.value & Chr(13) & strMsg
+    End If
+  End If
+  pwMsg.scrollTop = pwMsg.scrollHeight
+  RefreshDisplay
+
+End Function
+
+Sub Window_onBeforeUnLoad()
+
+  If progressStatus <> 0 Then
+    window.event.returnValue = "Activation is still in progress. Press OK to terminate the setup process."
+    'event.cancelBubble = true
+  End If
+  Set wshShell = Nothing
+  Set fso = Nothing
+
+End Sub
+
+Sub Window_onLoad()
+
+  Dim retVal, strX
+  mEDE.AppWindowVisibility "Minimize", "PWeb Application - Internet Explorer provided by Parsons Corp."
+  mEDE.AppWindowVisibility "Minimize", "ParStream-Jukebox - Windows Internet Explorer provided by Parsons Corp."
+  mEDE.AppWindowVisibility "Minimize", "PWeb Application - Windows Internet Explorer provided by Parsons Corp."
+  mEDE.AppWindowVisibility "Minimize", "ParStream-Jukebox - Google Chrome"
+
+  processId = mEDE.GetProcessId("mshta.exe")
+  window.focus()
+
+  'Set wshShell = CreateObject("WScript.Shell")
+  Set fso = CreateObject("Scripting.FileSystemObject")
+
+  mEDE.RefreshDisplay pwMsg, pwBar
+
+  mEDE.ParStreamInitialSetup window, pwMsg, pwBar, pwDelta, gcEdeClientRegistryKey, _
+    gcEdeClientDir, gcEdeClientWorkDir
+
+  InitializeSetup()
+
+  mEDE.UPMain pwMsg, pwBar, "Init", "Beginning ParStream session..."
+
+  If mEDE.CheckStreamingClient(requiredMaj,requiredMin,requiredPat,requiredBld, _
+    installedMaj,installedMin,installedPat,installedBld,jbPlayerInstallUrl, _
+    jbPlayerInstallSwitches,pwMsg,pwBar,window) = True Then
+
+    EdeInitialize()
+
+    ' Install AppMon
+    UP "Installing AppMon..."
+    window.blur()
+    mEDE.InstallAppMon amServName, amSourcePath, amSerExe, amCurVersion, _
+      amSerInstallSwitch, amSerStartSwitch, amSerStopSwitch, amSerUninstallSwitch
+    window.focus()
+
+    ' Special Config Actions
+    UP "Performing Special Configuration Actions..."
+    window.blur()
+    mEDE.PreActivationSteps
+    window.focus()
+
+    If gAppId > -1 Then
+      ' Deactivate Apps
+      mEDE.RemoveAppDriver pwMsg, pwBar, deactivateLicenseGuids, deactivateAppIDs, deactivateLicenseNames, deactivateLicenseIDs
+      If mEDE.GetHTAHaltFlag = 1 Then progressStatus = -1
+
+      ' Deploy Apps
+      If mEDE.GetHTAHaltFlag = 0 Then
+        window.blur()
+        if Ubound(activateLicenseGuids) > 0 then mEDE.AppWindowVisibility "Restore", "Application Jukebox Player"
+        retVal = mEDE.DeployAppDriver (pwMsg, pwBar, activateLicenseGuids, activateAppIDs, activateLicenseNames, _
+                                       activateLicenseIDs, jukeboxTokenUrl)
+        If (retVal = False) Then progressStatus = -1
+        'MsgBox "DeployAppDriver()...retVal = " & retVal
+        window.focus()
+      End If
+      If IsEmpty(downloaderScript) = False Then
+        mEDE.DeleteFile downloaderScript
+      End If
+    End If
+    mEDE.AppWindowVisibility "Minimize", "Application Jukebox Player"
+
+    ' PRE Config
+    If mEDE.GetHTAHaltFlag = 0 Then
+      RunEdePre()
+    End If
+
+    If gAppId > -1 Then
+      If mEDE.GetHTAHaltFlag = 0 Then
+        RunEdeAppConfig()
+      End If
+
+    ' Launch App
+      If mEDE.GetHTAHaltFlag = 0 Then UP "Starting application..."
+      mEDE.AppWindowVisibility "Minimize", "Application Jukebox Player"
+      mEDE.LaunchApplication(gcLaunchInfoKey)
+    End If
+
+  End If
+  window.focus()
+
+  EdeFinalSetup()
+
+  If progressStatus > 0 And mEDE.GetHTAHaltFlag = 0 Then
+    UP " "
+    UPMain "End", "This window will now close."
+    'UP "This window will now close."
+  Else
+    strX = " " & Chr(13) & chr(10)
+    strX = strX & "A failure occurred or the program was cancelled."
+    strX = strX & Chr(13) & chr(10) & "Try again or contact the Service Desk if the problem persists."
+    strX = strX & Chr(13) & chr(10) & "Be sure to look for UAC prompts in the Start bar, and acknowledge as required."
+    strX = strX & Chr(13) & chr(10) & "Note that rebooting the computer may resolve the issue."
+    strX = strX & Chr(13) & chr(10) & "Close this dialog with the X in the upper right hand corner."
+    UPMain "End", strX
+    'UP strX
+  End If
+
+End Sub
+
+'========================================================================================================
+const SETUP_SUCCESS = 0
+Dim setupCode : setupCode = SETUP_SUCCESS
+
+' Progress information
+Dim retvTimer
+'  0: Nothing
+'  1: Installing
+' -1: Uninstalling
+Dim progressStatus : progressStatus = 0
+Dim pwDelta        : pwDelta        = 0
+Dim processId      : processId      = 0
+
+' Resize the progress window
+Dim intWidth, intHeight
+intWidth  = 500
+intHeight = 345
+window.ResizeTo intWidth, intHeight
+window.MoveTo ((Screen.Width / 2) - (intWidth / 2)),((Screen.Height / 2) - (intHeight / 2) - 110)
+'========================================================================================================
+Dim gcEdeClientRegistryKey, gcLaunchInfoKey, gcEdeClientDir, gcEdeClientWorkDir, gAppID, gRunAltApp
+Dim wshShell, fso, LFile, objFS, HTAHaltFlag, downloaderScript
+
+Dim jbPlayerInstallUrl, jbPlayerInstallSwitches, jukeboxServerUrl, jukeboxTokenUrl
+Dim iconUrl, jukeboxPlayerPath, jukeboxPlayerMinVer, parstreamUrl
+Dim requiredMaj, requiredMin, requiredPat, requiredBld
+Dim installedMaj, installedMin, installedPat, installedBld
+installedMaj = installedMin = installedPat = installedBld = 0
+
+Dim amServName, amSourcePath, amSerExe, amCurVersion
+Dim amSerInstallSwitch, amSerStartSwitch, amSerStopSwitch, amSerUninstallSwitch
+Dim gOOACreated, gOOMCreated, gPREACreated 
+'========================================================================================================`
+
+gcEdeClientRegistryKey = "HKEY_CURRENT_USER\Software\Parsons\ParStream"
+gcLaunchInfoKey        = "HKEY_CURRENT_USER\Software\Parsons\ParStream\LaunchInfo"
+gcEdeClientDir         = "C:\ProgramData\ParStream\%USERNAME%\"
+gcEdeClientWorkDir     = "%USERPROFILE%\Documents\ParStream\"
+gAppID                 = 594
+gRunAltApp             = 0
+
+jbPlayerInstallUrl      = "http://10.4.10.102:8181/jukeboxserver/pages/clientdownloads/Application Jukebox Player x64.exe"
+jbPlayerInstallSwitches = "/s /v"" /passive ET_CACHE_SIZE=""1024"" ET_CREATE_SHORTCUT=""False"" ET_INSTALL_RUNTIMES=""False"""
+jukeboxServerUrl        = "http://10.4.10.102:8182/jukeboxserver"
+jukeboxTokenUrl         = "http://10.4.10.102:8182/jukeboxserver/do/license/token/renew.tok?msid=1D47E6B4-35EB-4899-AFE5-9BCF035F1A98&tokenRenewalUrl=http://estst.parsons.com:8182/jukeboxserver/do/license/token/renew.tok"
+iconUrl                 = jukeboxServerUrl & "/pages/images/favicon.ico"
+jukeboxPlayerPath       = "C:\Program Files\Endeavors Technologies\Application Jukebox Player\JukeboxPlayer.exe"
+jukeboxPlayerMinVer     = "8.7.1"
+parstreamUrl            = "http://10.4.10.101/ParStream"
+requiredMaj             = 8
+requiredMin             = 7
+requiredPat             = 0
+requiredBld             = 0
+
+amServName              = "psam"
+amSourcePath            = "[EDEFileStore]\ConfigFiles\AppMon\psam.exe"
+amSerExe                = "[EDEClientDir]\psam.exe"
+amCurVersion            = "2.0.0.8"
+amSerInstallSwitch      = "-v"
+amSerStartSwitch        = "-r"
+amSerStopSwitch         = "-s"
+amSerUninstallSwitch    = "-u"
+
+'Deactivate Apps
+Dim deactivateLicenseGuids
+deactivateLicenseGuids = Array( _
+)
+
+Dim deactivateLicenseNames
+deactivateLicenseNames = Array( _
+)
+
+Dim deactivateLicenseIDs
+deactivateLicenseIDs = Array( _
+)
+
+Dim deactivateAppIDs
+deactivateAppIDs = Array( _
+)
+
+'Activate Apps
+Dim activateLicenseGuids
+activateLicenseGuids = Array( _
+)
+
+Dim activateLicenseNames
+activateLicenseNames = Array( _
+)
+
+Dim activateLicenseIDs
+activateLicenseIDs = Array( _
+)
+
+Dim activateAppIDs
+activateAppIDs = Array( _
+)
+
+Sub EdeInitialize()
+
+  UP "Setting initial ParStream-Jukebox registry and file values..."
+  FErr = 0
+  On Error Resume Next
+
+  LFile.WriteLine("")
+  LFile.WriteLine("LogFileSizeLimit = 1000")
+mEDE.SetServerAndDB "10.4.10.102", "ParStreamStagingDB"
+  LFile.WriteLine("mEDE.SetServerAndDB ""10.4.10.102"", ""ParStreamStagingDB""")
+mEDE.WriteClientLogFile "HTA File: D:\ParStream2010\ParStream\HTA\ParStream15390PRE.HTA"
+  LFile.WriteLine("---Entered Initialize---")
+mEDE.WriteClientLogFile "---Entered Initialize---"
+mEDE.RegKeyCfgCleanupWMI "HKEY_CURRENT_USER\Software\Parsons\ParStream"
+  LFile.WriteLine("mEDE.RegKeyCfgCleanupWMI ""HKEY_CURRENT_USER\Software\Parsons\ParStream""")
+  LFile.WriteLine("Cin: D:\ParStream2010\ParStream\HTA\ParStream15390PRE.HTA|")
+  LFile.WriteLine("     |1|7|-2|-2|594|888888|88888|0|0|D:\ParStream2010\ParStream\DLL\Ede.INI|C:\ProgramData\ParStream\%USERNAME%\")
+  LFile.WriteLine("Cfg.HTAFile    = D:\ParStream2010\ParStream\HTA\ParStream15390PRE.HTA")
+  LFile.WriteLine("Cfg.SiteID     = 1")
+  LFile.WriteLine("Cfg.ProjID     = 7")
+  LFile.WriteLine("Cfg.SubpID     = -2")
+  LFile.WriteLine("Cfg.DiscID     = -2")
+  LFile.WriteLine("App.AppId      = 594")
+  LFile.WriteLine("Cfg.EdeIniFile = D:\ParStream2010\ParStream\DLL\Ede.INI")
+mEDE.SetCfgDateString "021816"
+  LFile.WriteLine("mEDE.SetCfgDateString ""021816""")
+mEDE.SetFileRndNumber "15390"
+  LFile.WriteLine("mEDE.SetFileRndNumber ""15390""")
+mEDE.SetCfgKey "021816Cfg15390"
+  LFile.WriteLine("mEDE.SetCfgKey ""021816Cfg15390""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UserID", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UserID"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteID", "1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteID"", ""1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjID", "7"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjID"", ""7""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpID", "-2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpID"", ""-2""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscID", "-2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscID"", ""-2""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "594"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""594""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppName", "Bentley AutoPIPE Batch Generator"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppName"", ""Bentley AutoPIPE Batch Generator""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Job", "888888"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Job"", ""888888""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WBS", "88888"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WBS"", ""88888""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RunAltApp", "0"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RunAltApp"", ""0""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CfgDateString", "021816"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CfgDateString"", ""021816""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HTAFileRandomNumber", "15390"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HTAFileRandomNumber"", ""15390""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDERegInfoKey", "HKEY_CURRENT_USER\Software\Parsons\ParStream\021816Cfg15390"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDERegInfoKey"", ""HKEY_CURRENT_USER\Software\Parsons\ParStream\021816Cfg15390""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HTAPath", "http://10.4.10.101/ParStream/HTA/ParStream"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HTAPath"", ""http://10.4.10.101/ParStream/HTA/ParStream""")
+mEDE.SetAppProceedFlag "0"
+  LFile.WriteLine("mEDE.SetAppProceedFlag ""0""")
+mEDE.SetAppSetProceedFlag "0"
+  LFile.WriteLine("mEDE.SetAppSetProceedFlag ""0""")
+gPREACreated = 0
+gOOMCreated = 0
+gOOACreated = 0
+ 'call to get the special HTA variables
+Special_HTA_Created_Variables()
+If gPREACreated > 0 Then
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PREHTAPath", "http://10.4.10.101/ParStream/HTA/ParStream15390PREA.HTA"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PREHTAPath"", ""http://10.4.10.101/ParStream/HTA/ParStream15390PREA.HTA""")
+End If
+If gOOACreated > 0 Then
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OOAHTAPath", "http://10.4.10.101/ParStream/HTA/ParStream15390OOA.HTA"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OOAHTAPath"", ""http://10.4.10.101/ParStream/HTA/ParStream15390OOA.HTA""")
+End If
+If gOOMCreated > 0 Then
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OOMHTAPath", "http://10.4.10.101/ParStream/HTA/ParStream15390OOM.HTA"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OOMHTAPath"", ""http://10.4.10.101/ParStream/HTA/ParStream15390OOM.HTA""")
+End If
+  LFile.WriteLine("CfgDateString = 021816")
+  LFile.WriteLine("HTAFileRandomNumber = 15390")
+  LFile.WriteLine("EDERegInfoKey = HKEY_CURRENT_USER\Software\Parsons\ParStream\021816Cfg15390")
+  LFile.WriteLine("---Entered DefineCommnonVariables()---")
+mEDE.WriteClientLogFile "---Entered DefineCommnonVariables()---"
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EdeDrive", "B:"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EdeDrive"", ""B:""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EdeAppsNetDir", "B:\Apps\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EdeAppsNetDir"", ""B:\Apps\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EdeServerPath", "B:\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EdeServerPath"", ""B:\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CpuName", "Environ(COMPUTERNAME)"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CpuName"", ""Environ(COMPUTERNAME)""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Username", "Environ(USERNAME)"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Username"", ""Environ(USERNAME)""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UserDomain", "Environ(USERDOMAIN)"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UserDomain"", ""Environ(USERDOMAIN)""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OS", "Environ(OS)"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OS"", ""Environ(OS)""")
+  LFile.WriteLine("...Exiting DefineCommnonVariables()...")
+mEDE.WriteClientLogFile "...Exiting DefineCommnonVariables()..."
+  LFile.WriteLine("---Entered GetEdeSystemPara()---")
+mEDE.WriteClientLogFile "---Entered GetEdeSystemPara()---"
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDEClientDir", "C:\ProgramData\ParStream\%USERNAME%\", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDEClientDir"", ""C:\ProgramData\ParStream\%USERNAME%\"", ""True""")
+  LFile.WriteLine("EDEClientDir = C:\ProgramData\ParStream\%USERNAME%\")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDEClientWorkDir", "%USERPROFILE%\Documents\ParStream\", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDEClientWorkDir"", ""%USERPROFILE%\Documents\ParStream\"", ""True""")
+  LFile.WriteLine("EDEClientWorkDir = %USERPROFILE%\Documents\ParStream\")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EdeFileStore", "\\10.4.10.101\PSJBfiles-Staging\", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EdeFileStore"", ""\\10.4.10.101\PSJBfiles-Staging\"", ""True""")
+  LFile.WriteLine("EdeFileStore = \\10.4.10.101\PSJBfiles-Staging\")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AccountingInfoVirtualDir", "http://txpla02estst02.parsons.com/AccountingInfoVirtualDir", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AccountingInfoVirtualDir"", ""http://txpla02estst02.parsons.com/AccountingInfoVirtualDir"", ""True""")
+  LFile.WriteLine("AccountingInfoVirtualDir = http://txpla02estst02.parsons.com/AccountingInfoVirtualDir")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonCurrentVersion", "2.0.0.8", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonCurrentVersion"", ""2.0.0.8"", ""True""")
+  LFile.WriteLine("AppMonCurrentVersion = 2.0.0.8")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonDBServer", "10.4.10.102.AppMonDB", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonDBServer"", ""10.4.10.102.AppMonDB"", ""True""")
+  LFile.WriteLine("AppMonDBServer = 10.4.10.102.AppMonDB")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonEnableSICI", "1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonEnableSICI"", ""1"", ""True""")
+  LFile.WriteLine("AppMonEnableSICI = 1")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonPollInterval", "2", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonPollInterval"", ""2"", ""True""")
+  LFile.WriteLine("AppMonPollInterval = 2")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonReloadFrequency", "0.1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonReloadFrequency"", ""0.1"", ""True""")
+  LFile.WriteLine("AppMonReloadFrequency = 0.1")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonServiceExe", "[EDEClientDir]\psam.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonServiceExe"", ""[EDEClientDir]\psam.exe"", ""True""")
+  LFile.WriteLine("AppMonServiceExe = [EDEClientDir]\psam.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonServiceInstallSwitch", "-v", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonServiceInstallSwitch"", ""-v"", ""True""")
+  LFile.WriteLine("AppMonServiceInstallSwitch = -v")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonServiceStartSwitch", "-r", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonServiceStartSwitch"", ""-r"", ""True""")
+  LFile.WriteLine("AppMonServiceStartSwitch = -r")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonServiceStopSwitch", "-s", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonServiceStopSwitch"", ""-s"", ""True""")
+  LFile.WriteLine("AppMonServiceStopSwitch = -s")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonServiceUninstallSwitch", "-u", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonServiceUninstallSwitch"", ""-u"", ""True""")
+  LFile.WriteLine("AppMonServiceUninstallSwitch = -u")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonSICISourcePath", "[EDEDrive]\ConfigFiles\AppMon\sici.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonSICISourcePath"", ""[EDEDrive]\ConfigFiles\AppMon\sici.exe"", ""True""")
+  LFile.WriteLine("AppMonSICISourcePath = [EDEDrive]\ConfigFiles\AppMon\sici.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonSICItimeout", "480", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonSICItimeout"", ""480"", ""True""")
+  LFile.WriteLine("AppMonSICItimeout = 480")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonSourcePath", "[EDEFileStore]\ConfigFiles\AppMon\psam.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonSourcePath"", ""[EDEFileStore]\ConfigFiles\AppMon\psam.exe"", ""True""")
+  LFile.WriteLine("AppMonSourcePath = [EDEFileStore]\ConfigFiles\AppMon\psam.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppMonWebServer", "http://10.4.10.101:8080", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppMonWebServer"", ""http://10.4.10.101:8080"", ""True""")
+  LFile.WriteLine("AppMonWebServer = http://10.4.10.101:8080")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDEClientRegistryKey", "HKEY_CURRENT_USER\Software\Parsons\ParStream", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDEClientRegistryKey"", ""HKEY_CURRENT_USER\Software\Parsons\ParStream"", ""True""")
+  LFile.WriteLine("EDEClientRegistryKey = HKEY_CURRENT_USER\Software\Parsons\ParStream")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDEConfigFilesDir", "[EDEFileStore]\ConfigFiles\", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDEConfigFilesDir"", ""[EDEFileStore]\ConfigFiles\"", ""True""")
+  LFile.WriteLine("EDEConfigFilesDir = [EDEFileStore]\ConfigFiles\")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDEDir", "D:\ParStream2010\ParStream", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDEDir"", ""D:\ParStream2010\ParStream"", ""True""")
+  LFile.WriteLine("EDEDir = D:\ParStream2010\ParStream")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDESupportEmailAddress", "edesupport.parsons@parsons.com", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDESupportEmailAddress"", ""edesupport.parsons@parsons.com"", ""True""")
+  LFile.WriteLine("EDESupportEmailAddress = edesupport.parsons@parsons.com")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxPlayerInstallSwitches", "/s /v"" /passive ET_CACHE_SIZE=""1024"" ET_CREATE_SHORTCUT=""False"" ET_INSTALL_RUNTIMES=""False""", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxPlayerInstallSwitches"", ""/s /v"" /passive ET_CACHE_SIZE=""1024"" ET_CREATE_SHORTCUT=""False"" ET_INSTALL_RUNTIMES=""False"""", ""True""")
+  LFile.WriteLine("JukeboxPlayerInstallSwitches = /s /v"" /passive ET_CACHE_SIZE=""1024"" ET_CREATE_SHORTCUT=""False"" ET_INSTALL_RUNTIMES=""False""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxPlayerInstallURL", "http://10.4.10.102:8181/jukeboxserver/pages/clientdownloads/Application Jukebox Player x64.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxPlayerInstallURL"", ""http://10.4.10.102:8181/jukeboxserver/pages/clientdownloads/Application Jukebox Player x64.exe"", ""True""")
+  LFile.WriteLine("JukeboxPlayerInstallURL = http://10.4.10.102:8181/jukeboxserver/pages/clientdownloads/Application Jukebox Player x64.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxPlayerPath", "C:\Program Files\Endeavors Technologies\Application Jukebox Player\JukeboxPlayer.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxPlayerPath"", ""C:\Program Files\Endeavors Technologies\Application Jukebox Player\JukeboxPlayer.exe"", ""True""")
+  LFile.WriteLine("JukeboxPlayerPath = C:\Program Files\Endeavors Technologies\Application Jukebox Player\JukeboxPlayer.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxPlayerVersion", "8.7.1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxPlayerVersion"", ""8.7.1"", ""True""")
+  LFile.WriteLine("JukeboxPlayerVersion = 8.7.1")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxServerURL", "http://10.4.10.102:8182/jukeboxserver", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxServerURL"", ""http://10.4.10.102:8182/jukeboxserver"", ""True""")
+  LFile.WriteLine("JukeboxServerURL = http://10.4.10.102:8182/jukeboxserver")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JukeboxTokenURL", "http://10.4.10.102:8182/jukeboxserver/do/license/token/renew.tok?msid=1D47E6B4-35EB-4899-AFE5-9BCF035F1A98&tokenRenewalUrl=http://estst.parsons.com:8182/jukeboxserver/do/license/token/renew.tok", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JukeboxTokenURL"", ""http://10.4.10.102:8182/jukeboxserver/do/license/token/renew.tok?msid=1D47E6B4-35EB-4899-AFE5-9BCF035F1A98&tokenRenewalUrl=http://estst.parsons.com:8182/jukeboxserver/do/license/token/renew.tok"", ""True""")
+  LFile.WriteLine("JukeboxTokenURL = http://10.4.10.102:8182/jukeboxserver/do/license/token/renew.tok?msid=1D47E6B4-35EB-4899-AFE5-9BCF035F1A98&tokenRenewalUrl=http://estst.parsons.com:8182/jukeboxserver/do/license/token/renew.tok")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "MasterReplicationUNC", "\\10.4.10.101\psjbfiles-staging", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""MasterReplicationUNC"", ""\\10.4.10.101\psjbfiles-staging"", ""True""")
+  LFile.WriteLine("MasterReplicationUNC = \\10.4.10.101\psjbfiles-staging")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ParStreamURL", "http://10.4.10.101/ParStream", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ParStreamURL"", ""http://10.4.10.101/ParStream"", ""True""")
+  LFile.WriteLine("ParStreamURL = http://10.4.10.101/ParStream")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PrereqInstallPath", "c:\ProgramData\Prereqs", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PrereqInstallPath"", ""c:\ProgramData\Prereqs"", ""True""")
+  LFile.WriteLine("PrereqInstallPath = c:\ProgramData\Prereqs")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PrereqInstallProgram", "[EDEClientDir]\ParStreamPrereqInstall.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PrereqInstallProgram"", ""[EDEClientDir]\ParStreamPrereqInstall.exe"", ""True""")
+  LFile.WriteLine("PrereqInstallProgram = [EDEClientDir]\ParStreamPrereqInstall.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProgramVersion", "Prod", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProgramVersion"", ""Prod"", ""True""")
+  LFile.WriteLine("ProgramVersion = Prod")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PSJBfilesServerName", "10.4.10.101", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PSJBfilesServerName"", ""10.4.10.101"", ""True""")
+  LFile.WriteLine("PSJBfilesServerName = 10.4.10.101")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PSJBfilesShareName", "PSJBfiles-Staging", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PSJBfilesShareName"", ""PSJBfiles-Staging"", ""True""")
+  LFile.WriteLine("PSJBfilesShareName = PSJBfiles-Staging")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RunPostHTA", "False", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RunPostHTA"", ""False"", ""True""")
+  LFile.WriteLine("RunPostHTA = False")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ServiceDeskURL", "http://parsharesites.parsons.com/tm/ISportal/Service_Desk/default.aspx", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ServiceDeskURL"", ""http://parsharesites.parsons.com/tm/ISportal/Service_Desk/default.aspx"", ""True""")
+  LFile.WriteLine("ServiceDeskURL = http://parsharesites.parsons.com/tm/ISportal/Service_Desk/default.aspx")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SetPlayerCacheSizeProgram", "[EDEClientDir]\SetPlayerCacheSize.vbs", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SetPlayerCacheSizeProgram"", ""[EDEClientDir]\SetPlayerCacheSize.vbs"", ""True""")
+  LFile.WriteLine("SetPlayerCacheSizeProgram = [EDEClientDir]\SetPlayerCacheSize.vbs")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SetPlayerLoggingProgram", "[EDEClientDir]\SetPlayerLogging.vbs", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SetPlayerLoggingProgram"", ""[EDEClientDir]\SetPlayerLogging.vbs"", ""True""")
+  LFile.WriteLine("SetPlayerLoggingProgram = [EDEClientDir]\SetPlayerLogging.vbs")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SICIcommand", "[EDEClientDir]\sici.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SICIcommand"", ""[EDEClientDir]\sici.exe"", ""True""")
+  LFile.WriteLine("SICIcommand = [EDEClientDir]\sici.exe")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SoftwareUsePolicy", "http://parsharesites.parsons.com/corp/Policies/Documents/Software_Use_and_Licensing_Operating_Policy.pdf", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SoftwareUsePolicy"", ""http://parsharesites.parsons.com/corp/Policies/Documents/Software_Use_and_Licensing_Operating_Policy.pdf"", ""True""")
+  LFile.WriteLine("SoftwareUsePolicy = http://parsharesites.parsons.com/corp/Policies/Documents/Software_Use_and_Licensing_Operating_Policy.pdf")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SupportMailBox", "Parsons, ParStreamSupport", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SupportMailBox"", ""Parsons, ParStreamSupport"", ""True""")
+  LFile.WriteLine("SupportMailBox = Parsons, ParStreamSupport")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SystemName", "ParStream-Jukebox", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SystemName"", ""ParStream-Jukebox"", ""True""")
+  LFile.WriteLine("SystemName = ParStream-Jukebox")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UTCIcommand", "[EDEClientDir]\utci.exe 10.4.10.102.ParStreamStagingDB", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UTCIcommand"", ""[EDEClientDir]\utci.exe 10.4.10.102.ParStreamStagingDB"", ""True""")
+  LFile.WriteLine("UTCIcommand = [EDEClientDir]\utci.exe 10.4.10.102.ParStreamStagingDB")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UTCIdelay", "20", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UTCIdelay"", ""20"", ""True""")
+  LFile.WriteLine("UTCIdelay = 20")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UTCIwaitCounter", "30", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UTCIwaitCounter"", ""30"", ""True""")
+  LFile.WriteLine("UTCIwaitCounter = 30")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "V&Vurl", "http://parsharesites.parsons.com/tm/ISportal/Engineering_Systems/Verification and Validation/Forms/AllItems.aspx", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""V&Vurl"", ""http://parsharesites.parsons.com/tm/ISportal/Engineering_Systems/Verification and Validation/Forms/AllItems.aspx"", ""True""")
+  LFile.WriteLine("V&Vurl = http://parsharesites.parsons.com/tm/ISportal/Engineering_Systems/Verification and Validation/Forms/AllItems.aspx")
+  LFile.WriteLine("...Exiting GetEdeSystemPara()...")
+mEDE.WriteClientLogFile "...Exiting GetEdeSystemPara()..."
+
+End Sub
+
+Sub RunEdePre()
+
+  UP "Defining ParStream-Jukebox environment and creating registry values..."
+  FErr = 0
+  On Error Resume Next
+
+  LFile.WriteLine("---Entered GetGBUInfo()---")
+  LFile.WriteLine("...Exiting GetGBUInfo()...")
+  LFile.WriteLine("---Entered GetSiteInfo()---")
+  LFile.WriteLine("...Exiting GetSiteInfo()...")
+  LFile.WriteLine("---Entered GetProjInfo()---")
+  LFile.WriteLine("...Exiting GetProjInfo()...")
+  LFile.WriteLine("---Entered GetAppGroupID()---  AppID = 594")
+  LFile.WriteLine("AppID = 594")
+  LFile.WriteLine("...Exiting GetAppGroupID()...")
+  LFile.WriteLine("AppGroupId = 86")
+  LFile.WriteLine("AppVersion = ")
+  LFile.WriteLine("---Entered GetCostCode() DiscID = -2---")
+  LFile.WriteLine("...Exiting GetCostCode() CostCode = ...")
+  LFile.WriteLine("---Entered GetAccInfo() AppID = 594---")
+  LFile.WriteLine("...Exiting GetAccInfo() AccLevel = 1  AccType = 0...")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteID", "1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteID"", ""1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteAbbr", "CAPAS01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteAbbr"", ""CAPAS01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GBUID", "5"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GBUID"", ""5""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjID", "7"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjID"", ""7""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjAbbr", "ENGSYS"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjAbbr"", ""ENGSYS""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GBUID", "5"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GBUID"", ""5""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpID", "-2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpID"", ""-2""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpAbbr", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpAbbr"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpName", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpName"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpDesc", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpDesc"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpDirname", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpDirname"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpPath", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpPath"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscID", "-2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscID"", ""-2""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscAbbr", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscAbbr"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscName", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscName"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscDesc", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscDesc"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscDirname", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscDirname"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscPath", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscPath"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjTier", "1T"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjTier"", ""1T""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "594"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""594""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppAbbr", "AUTOPIPEBATCH"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppAbbr"", ""AUTOPIPEBATCH""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppVersion", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppVersion"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupID", "86"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupID"", ""86""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupAbbr", "DUMMY"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupAbbr"", ""DUMMY""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CostCode", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CostCode"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AccountingLevel", "1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AccountingLevel"", ""1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppType", "0"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppType"", ""0""")
+  LFile.WriteLine("...Exiting Initialize...")
+mEDE.WriteClientLogFile "...Exiting Initialize..."
+  LFile.WriteLine("---Entered MountEdeDrives()---")
+NErr = mEDE.MapNetDrive( "B:", "\\txpla02estst02\PSJBfiles-Staging", "True", "EdeDrive", "CAPAS01")
+  LFile.WriteLine("NErr = mEDE.MapNetDrive( ""B:"", ""\\txpla02estst02\PSJBfiles-Staging"", ""True"", ""EdeDrive"", ""CAPAS01"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+If NErr <> 0 Then FErr = -1
+  LFile.WriteLine("If NErr <> 0 Then FErr = -1")
+  LFile.WriteLine("...Exiting MountEdeDrives()...")
+  LFile.WriteLine("---Entered WriteInfoValuesSystem()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ABViewerLicenseInfo", "TXDAL11LMS05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ABViewerLicenseInfo"", ""TXDAL11LMS05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ABViewerLicenseLevel", """ABVIEWER 9 ENTERPRISE"""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ABViewerLicenseLevel"", """"ABVIEWER 9 ENTERPRISE""""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ABViewerLicensePort", "00005000"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ABViewerLicensePort"", ""00005000""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AFTArrow4LicenseInfo", "0640-14091"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AFTArrow4LicenseInfo"", ""0640-14091""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AFTFathom7LicenseInfo", "0170-17315"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AFTFathom7LicenseInfo"", ""0170-17315""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AFTImpulse4LicenseInfo", "0940-19436"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AFTImpulse4LicenseInfo"", ""0940-19436""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AFTProtectionType", "4"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AFTProtectionType"", ""4""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AmtechLicenseInfo", "27004@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AmtechLicenseInfo"", ""27004@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AnsysLicenseInfo", "SERVER=1055@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AnsysLicenseInfo"", ""SERVER=1055@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AnsysSLILicenseInfo", "ANSYSLI_SERVERS=2325@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AnsysSLILicenseInfo"", ""ANSYSLI_SERVERS=2325@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "APILELicenseInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""APILELicenseInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AquaveoLicenseInfo", "172.24.101.55"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AquaveoLicenseInfo"", ""172.24.101.55""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AquiferTestLicenseInfo", "HOST 172.21.207.97 005056a0206f 2375"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AquiferTestLicenseInfo"", ""HOST 172.21.207.97 005056a0206f 2375""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AquiferTestSN", "AQTST-440-625791961-2050"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AquiferTestSN"", ""AQTST-440-625791961-2050""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ArcGISLicenseInfo", "27000@TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ArcGISLicenseInfo"", ""27000@TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AutodeskLicenseInfo", "27000@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AutodeskLicenseInfo"", ""27000@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AutodeskTrainingNotice", "http://parsharesites.parsons.com/tm/ISportal/Engineering_Systems/training_autodesk/autodesk_pilot_test/default.aspx"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AutodeskTrainingNotice"", ""http://parsharesites.parsons.com/tm/ISportal/Engineering_Systems/training_autodesk/autodesk_pilot_test/default.aspx""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BentleyActivationInfo", "1MDS6K280TG87QH"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BentleyActivationInfo"", ""1MDS6K280TG87QH""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BentleyLicenseCountry", "US"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BentleyLicenseCountry"", ""US""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BentleyLicenseInfo", "TXPLA02LMS03"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BentleyLicenseInfo"", ""TXPLA02LMS03""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BentleyLicenseInfo2", "SERVER=[BentleyLicenseInfo]"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BentleyLicenseInfo2"", ""SERVER=[BentleyLicenseInfo]""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CADWorxPID2013SerNum", "00127226401152"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CADWorxPID2013SerNum"", ""00127226401152""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CADWorxPP2013SerNum", "00663577401151"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CADWorxPP2013SerNum"", ""00663577401151""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CADWorxPro2010LicInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CADWorxPro2010LicInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CADWorxPro2013LicInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CADWorxPro2013LicInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CAESARII5LicenseInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CAESARII5LicenseInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CarlsonSurvey2014SN", "5767169-4F47AC0-254418-390449"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CarlsonSurvey2014SN"", ""5767169-4F47AC0-254418-390449""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CarlsonSurveyLicenseServer", "TXDAL11LMS05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CarlsonSurveyLicenseServer"", ""TXDAL11LMS05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ChemCAD6LicenseInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ChemCAD6LicenseInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CompressLicenseInfo", "CAPAS01LMS105"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CompressLicenseInfo"", ""CAPAS01LMS105""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSIBRIDGE15LicenseLevel", "ADVANCED RATING"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSIBRIDGE15LicenseLevel"", ""ADVANCED RATING""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSIBRIDGE16LicenseLevel", "ADVANCEDRATING 2015"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSIBRIDGE16LicenseLevel"", ""ADVANCEDRATING 2015""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSIBRIDGE17LicenseLevel", "ADVANCEDRATING 2015"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSIBRIDGE17LicenseLevel"", ""ADVANCEDRATING 2015""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSILicenseInfo", "TXDAL11LMS05:TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSILicenseInfo"", ""TXDAL11LMS05:TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSINEWLicenseInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSINEWLicenseInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EaglePointLicenseInfo", "172.21.207.96"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EaglePointLicenseInfo"", ""172.21.207.96""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EaglePointLicensePort", "6861"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EaglePointLicensePort"", ""6861""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDR11LicenseInfo", "E08-3163-8-1214-131913-PA"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDR11LicenseInfo"", ""E08-3163-8-1214-131913-PA""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EDR8LicenseInfo", "UE8-9247-6-1013-101284-KC"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EDR8LicenseInfo"", ""UE8-9247-6-1013-101284-KC""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ENERCALCLicenseInfo", "172.21.207.97"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ENERCALCLicenseInfo"", ""172.21.207.97""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ENERCALCPortInfo", "1000"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ENERCALCPortInfo"", ""1000""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ETABSLicenseLevel", "NONLINEAR"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ETABSLicenseLevel"", ""NONLINEAR""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "EVSProLicenseInfo", "9346@CAPAS01LMS103;"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""EVSProLicenseInfo"", ""9346@CAPAS01LMS103;""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "FB-MultiPierLicenseInfo", """\\TXDAL11LMS06\BSI FB-MultiPier\FB-MultiPier.lf"""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""FB-MultiPierLicenseInfo"", """"\\TXDAL11LMS06\BSI FB-MultiPier\FB-MultiPier.lf""""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "geoCalloutLicenseInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""geoCalloutLicenseInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GeoExpressCartridgeInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GeoExpressCartridgeInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GeoExpressLicenseInfo", "preferServer=txdal11lms05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GeoExpressLicenseInfo"", ""preferServer=txdal11lms05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GeoStudio2012LicenseInfo", "27002@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GeoStudio2012LicenseInfo"", ""27002@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GeoStudioLicenseInfo", "27002@TXPLA02LMS03"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GeoStudioLicenseInfo"", ""27002@TXPLA02LMS03""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GPSPathfinderOfficeLicInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GPSPathfinderOfficeLicInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GRLWEAPLicenseInfo", "CAPAS01LMS104"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GRLWEAPLicenseInfo"", ""CAPAS01LMS104""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GRLWEAPLicenseSerNum", "S9W8PWT-5062-FSKFDSF"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GRLWEAPLicenseSerNum"", ""S9W8PWT-5062-FSKFDSF""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GrndWtrVistas6SN", "XS1L-6D1W-S44T-4FL2-LDRT-ZJF7-PBK9"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GrndWtrVistas6SN"", ""XS1L-6D1W-S44T-4FL2-LDRT-ZJF7-PBK9""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GROUPLicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GROUPLicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GTSTRUDL29PWD", "BE87536D C27E5948 29FC1367 C29DD75C 3FC014C3 55983F9A E0BCD039 3CDA99A1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GTSTRUDL29PWD"", ""BE87536D C27E5948 29FC1367 C29DD75C 3FC014C3 55983F9A E0BCD039 3CDA99A1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GTSTRUDL31PWD", "BE87536D C27E5948 29FC1367 C29DD75C 8A94BAB1 FF727F88 E0BCD039 3CDA99A1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GTSTRUDL31PWD"", ""BE87536D C27E5948 29FC1367 C29DD75C 8A94BAB1 FF727F88 E0BCD039 3CDA99A1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GTSTRUDLLicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GTSTRUDLLicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HASPLicenseInfo", "CAPAS01LMS101"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HASPLicenseInfo"", ""CAPAS01LMS101""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HASPSend", "5"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HASPSend"", ""5""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HASPSession", "10"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HASPSession"", ""10""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HCS2000_4LicenseInfo", "охфммнроорокииг"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HCS2000_4LicenseInfo"", ""охфммнроорокииг""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HCS2010_6LicenseInfo", "4D4ECE494ECC4D4D49494F4D4C"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HCS2010_6LicenseInfo"", ""4D4ECE494ECC4D4D49494F4D4C""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HCSPlus5LicenseInfo", "4D4ECDCDC9C9CD4D4F4D49CE49"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HCSPlus5LicenseInfo"", ""4D4ECDCDC9C9CD4D4F4D49CE49""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisCompanyInfo", "Parsons"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisCompanyInfo"", ""Parsons""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisInstallDirInfo", "?programfilesx86?\CapdetWorks25"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisInstallDirInfo"", ""?programfilesx86?\CapdetWorks25""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisKeyCodeInfo", "PQIPRAZZJVQJKPMEPAIS"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisKeyCodeInfo"", ""PQIPRAZZJVQJKPMEPAIS""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisPortInfo", "53247"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisPortInfo"", ""53247""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisServerInfo", "CAPAS01LMS104"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisServerInfo"", ""CAPAS01LMS104""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "HydromantisUserNameInfo", "Parsons_User"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""HydromantisUserNameInfo"", ""Parsons_User""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "IgrafxLicenseInfo", "RX7Z-5R97-RXMV-TXH7-4769-S77P"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""IgrafxLicenseInfo"", ""RX7Z-5R97-RXMV-TXH7-4769-S77P""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "InfoWorksLicenseInfo", "172.24.101.50"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""InfoWorksLicenseInfo"", ""172.24.101.50""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "INROLicenseInfo", "CAPAS01LMS104"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""INROLicenseInfo"", ""CAPAS01LMS104""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LARSA4DLicenseType", "larsalicense"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LARSA4DLicenseType"", ""larsalicense""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LightingAnalystsLicenseAPPVER", "14"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LightingAnalystsLicenseAPPVER"", ""14""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LightingAnalystsLicenseAPPVERMinor", "6"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LightingAnalystsLicenseAPPVERMinor"", ""6""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LightingAnalystsLicenseKey", "5DCCBC-041BBD-11DCD2-65D712-D38216-5BABAA-EBBA3A-D4"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LightingAnalystsLicenseKey"", ""5DCCBC-041BBD-11DCD2-65D712-D38216-5BABAA-EBBA3A-D4""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LightingAnalystsLicenseServer", "TXDAL11LMS08"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LightingAnalystsLicenseServer"", ""TXDAL11LMS08""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LogPlot7IniInfo", "C:\Users\[USERNAME]\Documents\LogPlot 7\System\Logplot 7.ini"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LogPlot7IniInfo"", ""C:\Users\[USERNAME]\Documents\LogPlot 7\System\Logplot 7.ini""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LogPlot7LicInfo", "\\TXDAL11LMS06\Rockware_lic\LP7CN0333-05.lic"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LogPlot7LicInfo"", ""\\TXDAL11LMS06\Rockware_lic\LP7CN0333-05.lic""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LogPlot7RegInfo", "LP7CN0333-05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LogPlot7RegInfo"", ""LP7CN0333-05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LPILELicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LPILELicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LUSASLicenseInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LUSASLicenseInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "LUSASSN", "12234"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""LUSASSN"", ""12234""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "MDXLicenseInfo", "CAPAS01LMS106"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""MDXLicenseInfo"", ""CAPAS01LMS106""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NavisworksManage2014SN", "393-60626644"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NavisworksManage2014SN"", ""393-60626644""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NavisworksManage2015SN", "394-72509018"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NavisworksManage2015SN"", ""394-72509018""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NavisworksSimulate2014SN", "393-61641085"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NavisworksSimulate2014SN"", ""393-61641085""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NavisworksSimulate2015SN", "394-85375275"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NavisworksSimulate2015SN"", ""394-85375275""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OPTIMATEDescus1LicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OPTIMATEDescus1LicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OPTIMATEDescus2LicenseInfo", "172.24.101.64"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OPTIMATEDescus2LicenseInfo"", ""172.24.101.64""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OPTIMATEMerlinDashLicenseInfo", "172.24.101.64"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OPTIMATEMerlinDashLicenseInfo"", ""172.24.101.64""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OTIETAP12LicenseInfo", "?NQTxEjJ69dWTMzbiSAPcqtAD$7V?7tzaJtK"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OTIETAP12LicenseInfo"", ""?NQTxEjJ69dWTMzbiSAPcqtAD$7V?7tzaJtK""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "OTILicenseInfo", "CAPAS01LMS105"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""OTILicenseInfo"", ""CAPAS01LMS105""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PaladinDB5LicenseInfo", "SERVER 172.21.207.95 27006"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PaladinDB5LicenseInfo"", ""SERVER 172.21.207.95 27006""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PaladinDB5LicLevel", "SUPER_300"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PaladinDB5LicLevel"", ""SUPER_300""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PaladinDB5LicServ", "172.21.207.95"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PaladinDB5LicServ"", ""172.21.207.95""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ParsonsTechLibraryLicenseInfo", "\\CAPAS01APP04"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ParsonsTechLibraryLicenseInfo"", ""\\CAPAS01APP04""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Pipe2012Licenseinfo", "\\TXDAL11LMS06\KYPipe"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Pipe2012Licenseinfo"", ""\\TXDAL11LMS06\KYPipe""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PIPEFLOLicenseInfo", "172.24.99.61 /24"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PIPEFLOLicenseInfo"", ""172.24.99.61 /24""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PLAXISLicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PLAXISLicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseCacheServer", "TXPLA02PWINT01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseCacheServer"", ""TXPLA02PWINT01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseDNSServer", "TXPLA02PWINT01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseDNSServer"", ""TXPLA02PWINT01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PTCLicenseInfo", "7788@TXDAL11LMS07;7788@TXDAL11LMS08"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PTCLicenseInfo"", ""7788@TXDAL11LMS07;7788@TXDAL11LMS08""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PTVLicenseInfo", "172.31.213.19"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PTVLicenseInfo"", ""172.31.213.19""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "PYWALLLicenseInfo", "172.24.101.64"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""PYWALLLicenseInfo"", ""172.24.101.64""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RAMCommanderLicenseInfo", "\\TXDAL11LMS05\ALDLicense"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RAMCommanderLicenseInfo"", ""\\TXDAL11LMS05\ALDLicense""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RevitHostServer", "CAPAS01REVITS01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RevitHostServer"", ""CAPAS01REVITS01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RISALicenseInfo", "TXDAL11LMS07.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RISALicenseInfo"", ""TXDAL11LMS07.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Rockworks15LicInfo", "\\TXDAL11LMS06\Rockware_lic\RW15CN0312-05.lic"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Rockworks15LicInfo"", ""\\TXDAL11LMS06\Rockware_lic\RW15CN0312-05.lic""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Rockworks15RegInfo", "RW15CN0312-05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Rockworks15RegInfo"", ""RW15CN0312-05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAFE12LicenseLevel", "STANDARD"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAFE12LicenseLevel"", ""STANDARD""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAFE14LicenseLevel", "STANDARD"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAFE14LicenseLevel"", ""STANDARD""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SafeSoftLicenseInfo", "27007@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SafeSoftLicenseInfo"", ""27007@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAP200014LicenseLevel", "ADVANCED"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAP200014LicenseLevel"", ""ADVANCED""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAP200015LicenseLevel", "ULTIMATE"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAP200015LicenseLevel"", ""ULTIMATE""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAP200016LicenseLevel", "ULTIMATE 17"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAP200016LicenseLevel"", ""ULTIMATE 17""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SAP200017LicenseLevel", "ULTIMATE"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SAP200017LicenseLevel"", ""ULTIMATE""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SHAFTLicenseInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SHAFTLicenseInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SignCADLicenseInfo", "TXDAL11LMS08"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SignCADLicenseInfo"", ""TXDAL11LMS08""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SKMLicenseInfo", "3006@TXDAL11LMS05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SKMLicenseInfo"", ""3006@TXDAL11LMS05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SolidWorksLicenseInfo", "25734@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SolidWorksLicenseInfo"", ""25734@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SolidWorksSN", """0010 0057 1329 2612 4GBD HH5C"""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SolidWorksSN"", """"0010 0057 1329 2612 4GBD HH5C""""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SPLicenseInfo", "TXDAL11LMS05"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SPLicenseInfo"", ""TXDAL11LMS05""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "STATISTICALicenseInfo", "SERVER TXDAL11LMS07 005056a015f0 26999"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""STATISTICALicenseInfo"", ""SERVER TXDAL11LMS07 005056a015f0 26999""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Surfer10LicenseInfo", "{476F6C64-323D-1161-5F5E-42420019003D}"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Surfer10LicenseInfo"", ""{476F6C64-323D-1161-5F5E-42420019003D}""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SwedgeSN", "368F2AA2C5CH6DD7A"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SwedgeSN"", ""368F2AA2C5CH6DD7A""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SynchroPro5LicenseInfo", "27002@TXDAL11LMS07"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SynchroPro5LicenseInfo"", ""27002@TXDAL11LMS07""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "TeklaStructuresLicInfo", "27001@TXPLA02LMS04"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""TeklaStructuresLicInfo"", ""27001@TXPLA02LMS04""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "tnxTowerLicenseInfo", "capas01lms106.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""tnxTowerLicenseInfo"", ""capas01lms106.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "TransoftLicenseInfo", "TXPLA02LMS03"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""TransoftLicenseInfo"", ""TXPLA02LMS03""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "TSIS_CORSIM_RegInfo", "4D4EC9CC4C4DCD4D4D4F4E4E49"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""TSIS_CORSIM_RegInfo"", ""4D4EC9CC4C4DCD4D4D4F4E4E49""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "UnwedgeLicenseInfo", "H5G349H36FFD6FEDB"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""UnwedgeLicenseInfo"", ""H5G349H36FFD6FEDB""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VaultDatabaseInfo", "Vault"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VaultDatabaseInfo"", ""Vault""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VaultServerInfo", "TXRIC02REVIT01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VaultServerInfo"", ""TXRIC02REVIT01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VisualHELPSN", "VHELP-2203-557133011-5049"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VisualHELPSN"", ""VHELP-2203-557133011-5049""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VisualMODFLOWLicenseInfo", "HOST 172.21.207.97 005056A0206F 2375"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VisualMODFLOWLicenseInfo"", ""HOST 172.21.207.97 005056A0206F 2375""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VisualMODFLOWSN", "VMP993G-460-1986256319-5091"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VisualMODFLOWSN"", ""VMP993G-460-1986256319-5091""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VisualMODLOWLicFileName", "licenses_[VisualMODFLOWSN].lic"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VisualMODLOWLicFileName"", ""licenses_[VisualMODFLOWSN].lic""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WinABUD4LicenseInfo", "WinABUD4_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WinABUD4LicenseInfo"", ""WinABUD4_iai.key""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WinBDS5LicenseInfo", "WinBDS5_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WinBDS5LicenseInfo"", ""WinBDS5_iai.key""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WinFAD5LicenseInfo", "WinFAD5_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WinFAD5LicenseInfo"", ""WinFAD5_iai.key""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WinRECOL5LicenseInfo", "WINRECOL5_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WinRECOL5LicenseInfo"", ""WINRECOL5_iai.key""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WinSEISAB5LicenseInfo", "WinSEISAB5_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WinSEISAB5LicenseInfo"", ""WinSEISAB5_iai.key""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "XPSWMMLicenseInfo-200", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""XPSWMMLicenseInfo-200"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "XPSWMMLicenseInfo-50", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""XPSWMMLicenseInfo-50"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "XTRACT3LicenseInfo", "XTRACT3_iai.key"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""XTRACT3LicenseInfo"", ""XTRACT3_iai.key""")
+  LFile.WriteLine("...Exiting WriteInfoValuesSystem()...")
+  LFile.WriteLine("---Entered WriteInfoValuesGBU()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GBUID", "5"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GBUID"", ""5""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GBUAbbr", "OTHER"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GBUAbbr"", ""OTHER""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GBUName", "Other"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GBUName"", ""Other""")
+  LFile.WriteLine("...Exiting WriteInfoValuesGBU()...")
+  LFile.WriteLine("---Entered WriteInfoValuesSite()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteID", "1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteID"", ""1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteAbbr", "CAPAS01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteAbbr"", ""CAPAS01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SiteName", "Pasadena, CA"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SiteName"", ""Pasadena, CA""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ASADLicenseInfo", "172.24.101.66"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ASADLicenseInfo"", ""172.24.101.66""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AutoTURNLicenseInfo", "TXDAL11LMS08"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AutoTURNLicenseInfo"", ""TXDAL11LMS08""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BAR7LicenseInfo", "331265"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BAR7LicenseInfo"", ""331265""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "BAR7LicenseKey", "y2mi-p9fr-8wfy-JzL9"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""BAR7LicenseKey"", ""y2mi-p9fr-8wfy-JzL9""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CSCTeddsLicenseInfo", "TXDAL11LMS06"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CSCTeddsLicenseInfo"", ""TXDAL11LMS06""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DIMENSIONALSOLSInfoValue", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DIMENSIONALSOLSInfoValue"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "FDOT_PROJECT_DIR", "\\Capas01nacifs01\ess\FDOT-Proj\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""FDOT_PROJECT_DIR"", ""\\Capas01nacifs01\ess\FDOT-Proj\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ForestProLicensePort", "16720"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ForestProLicensePort"", ""16720""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ForestProLicenseServer", "ILCHI01APP01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ForestProLicenseServer"", ""ILCHI01APP01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "GuidSIGNLicenseInfo", "TXDAL11LMS08"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""GuidSIGNLicenseInfo"", ""TXDAL11LMS08""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "InfoWorksKeyID", "2041846504"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""InfoWorksKeyID"", ""2041846504""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "InfoWorksKeyType", "00000003"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""InfoWorksKeyType"", ""00000003""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "InfoWorksLicenseInfo", "172.24.101.65"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""InfoWorksLicenseInfo"", ""172.24.101.65""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseCacheServer", "CAPAS01PW01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseCacheServer"", ""CAPAS01PW01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseDNSServer", "CAPAS01PW01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseDNSServer"", ""CAPAS01PW01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RailCloneProLicensePort", "16720"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RailCloneProLicensePort"", ""16720""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RailCloneProLicenseServer", "ILCHI01APP01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RailCloneProLicenseServer"", ""ILCHI01APP01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "RevitServer", "CAPAS01REVITS01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""RevitServer"", ""CAPAS01REVITS01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "Shaft3DLicenseInfo", "172.20.9.17"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""Shaft3DLicenseInfo"", ""172.20.9.17""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SmartPlantLicenseInfo", """TXDAL11LMS02 172.21.207.72"""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SmartPlantLicenseInfo"", """"TXDAL11LMS02 172.21.207.72""""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "STLRFDLicenseInfo", "332109"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""STLRFDLicenseInfo"", ""332109""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "STLRFDLicenseKey", "3osc-6imn-szub-p8pa"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""STLRFDLicenseKey"", ""3osc-6imn-szub-p8pa""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VaultServerInfo", "CAPAS01REVITS01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VaultServerInfo"", ""CAPAS01REVITS01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WHIUnSatLicenseInfo", "UNSTP-2203-972324829-2026"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WHIUnSatLicenseInfo"", ""UNSTP-2203-972324829-2026""")
+  LFile.WriteLine("...Exiting WriteInfoValuesSite()...")
+  LFile.WriteLine("---Entered WriteInfoValuesProj()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjID", "7"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjID"", ""7""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjAbbr", "ENGSYS"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjAbbr"", ""ENGSYS""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjName", "Engineering Systems Support"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjName"", ""Engineering Systems Support""")
+  LFile.WriteLine("Record Found.")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseCacheServer", "TXDAL11PWTST01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseCacheServer"", ""TXDAL11PWTST01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjectwiseDNSServer", "TXDAL11PWTST01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjectwiseDNSServer"", ""TXDAL11PWTST01.parsons.com""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VaultDatabaseInfo", "Parsons TEST Vault"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VaultDatabaseInfo"", ""Parsons TEST Vault""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "VaultServerInfo", "TXDAL11VLTST01.parsons.com"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""VaultServerInfo"", ""TXDAL11VLTST01.parsons.com""")
+  LFile.WriteLine("...Exiting WriteInfoValuesProj()...")
+  LFile.WriteLine("---Entered WriteInfoValuesAppGroup()---strAppGroupID = 86")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupID", "86"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupID"", ""86""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupAbbr", "DUMMY"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupAbbr"", ""DUMMY""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupName", "Place Holder Group"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupName"", ""Place Holder Group""")
+  LFile.WriteLine("...Exiting WriteInfoValuesAppGroup()...")
+  LFile.WriteLine("---Entered WriteInfoValuesApp()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "594"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""594""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppAbbr", "AUTOPIPEBATCH"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppAbbr"", ""AUTOPIPEBATCH""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppName", "Bentley AutoPIPE Batch Generator"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppName"", ""Bentley AutoPIPE Batch Generator""")
+  LFile.WriteLine("...Exiting WriteInfoValuesApp()...")
+  LFile.WriteLine("---Entered ConfigProject()---")
+mEDE.WriteClientLogFile "---Entered ConfigProject()---"
+  LFile.WriteLine("---Entered WriteProjectInfo()---")
+mEDE.WriteClientLogFile "---Entered WriteProjectInfo()---"
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjID", "7"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjID"", ""7""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjName", "Engineering Systems Support"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjName"", ""Engineering Systems Support""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjDesc", "Engineering Systems Support"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjDesc"", ""Engineering Systems Support""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjDirname", "ESS"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjDirname"", ""ESS""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjDrive", "S:"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjDrive"", ""S:""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjServername", "CAPAS01NACIFS01"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjServername"", ""CAPAS01NACIFS01""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjSharename", "ESS"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjSharename"", ""ESS""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjServerPath", "\\CAPAS01NACIFS01\ESS\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjServerPath"", ""\\CAPAS01NACIFS01\ESS\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SharedAtProjDir", "1"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SharedAtProjDir"", ""1""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjLinkPath", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjLinkPath"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjGEDir", "Stds"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjGEDir"", ""Stds""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdID", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdID"", ""<not defined>""")
+  LFile.WriteLine("The program encountered a NULL value for 'CmpyStdID' in")
+  LFile.WriteLine("")
+  LFile.WriteLine("Database Table:	ProjSiteAssignments")
+  LFile.WriteLine("ProjID:		7")
+  LFile.WriteLine("SiteID:		1")
+  LFile.WriteLine("CmpyStdID:	NULL    <----Possible ERROR")
+  LFile.WriteLine("")
+  LFile.WriteLine("The CmpyStdID must be a valid project ID (ProjID) assigned")
+  LFile.WriteLine("to the same site as the project listed above.")
+  LFile.WriteLine("")
+  LFile.WriteLine("Please contact user support or your ParStream-Jukebox system administrator to fix the error.")
+  LFile.WriteLine("You may be able to work in this project/application,")
+  LFile.WriteLine("although some capability or functionality may be reduced.")
+  LFile.WriteLine("")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdID", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdID"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdAbbr", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdAbbr"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdGEPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdGEPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdDiscPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdDiscPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdID", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdID"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdAbbr", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdAbbr"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdDrive", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdDrive"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdDirname", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdDirname"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdServername", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdServername"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdSharename", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdSharename"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdServerPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdServerPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SharedAtCmpyStdDir", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SharedAtCmpyStdDir"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdLinkPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdLinkPath"", ""<not defined>""")
+  LFile.WriteLine("...Exiting WriteProjectInfo()...")
+mEDE.WriteClientLogFile "...Exiting WriteProjectInfo()..."
+  LFile.WriteLine("---Entered WriteJobInfo()---")
+  LFile.WriteLine("---Entered WriteSubProjectInfo()---")
+mEDE.WriteClientLogFile "---Entered WriteSubProjectInfo()---"
+  LFile.WriteLine("---Entered DefineAndRegWriteMultiValues()---")
+mEDE.WriteClientLogFile "---Entered DefineAndRegWriteMultiValues()---"
+  LFile.WriteLine("---Exiting DefineAndRegWriteMultiValues()---")
+mEDE.WriteClientLogFile "---Exiting DefineAndRegWriteMultiValues()---"
+  LFile.WriteLine("...Exiting WriteSubProjectInfo()...")
+mEDE.WriteClientLogFile "...Exiting WriteSubProjectInfo()..."
+  LFile.WriteLine("---Entered WriteWBSInfo()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JobNumber1", "888888"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JobNumber1"", ""888888""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WBSNumber1", "88888"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WBSNumber1"", ""88888""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "JobNumber2", "999999"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""JobNumber2"", ""999999""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "WBSNumber2", "99999"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""WBSNumber2"", ""99999""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NoWBS", "2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NoWBS"", ""2""")
+  LFile.WriteLine("...Exiting WriteWBSInfo()...")
+  LFile.WriteLine("---Entered WriteUserDiscInfo()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscID", "-2"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscID"", ""-2""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscAbbr", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscAbbr"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscName", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscName"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscDescription", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscDescription"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscDirname", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscDirname"", ""<n/a>""")
+  LFile.WriteLine("...Exiting WriteUserDiscInfo()...")
+  LFile.WriteLine("---Entered WriteAllDiscInfo() ProjID = 7  SubpID = -2---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "NoOfDisc", "0"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""NoOfDisc"", ""0""")
+  LFile.WriteLine("...Exiting WriteAllDiscInfo()...")
+  LFile.WriteLine("---Entered DefineDrivePaths()---")
+mEDE.WriteClientLogFile "---Entered DefineDrivePaths()---"
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjPath", "S:\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjPath"", ""S:\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "SubpPath", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""SubpPath"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "DiscPath", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""DiscPath"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjStdDiscPath", "<n/a>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjStdDiscPath"", ""<n/a>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjStdPath", "S:\Stds\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjStdPath"", ""S:\Stds\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "ProjStdGEPath", "S:\Stds\"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""ProjStdGEPath"", ""S:\Stds\""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdGEPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdGEPath"", ""<not defined>""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "CmpyStdDiscPath", "<not defined>"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""CmpyStdDiscPath"", ""<not defined>""")
+  LFile.WriteLine("...Exiting DefineDrivePaths()...")
+mEDE.WriteClientLogFile "...Exiting DefineDrivePaths()..."
+  LFile.WriteLine("---Entered MountDrives()---")
+mEDE.WriteClientLogFile "---Entered MountDrives()---"
+UP "Mounting network drives..."
+NErr = mEDE.MapNetDrive( "S:", "\\CAPAS01NACIFS01\ESS", "True", "ProjDrive", "CAPAS01", "ENGSYS")
+  LFile.WriteLine("NErr = mEDE.MapNetDrive( ""S:"", ""\\CAPAS01NACIFS01\ESS"", ""True"", ""ProjDrive"", ""CAPAS01"", ""ENGSYS"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("...Exiting MountDrives()...")
+mEDE.WriteClientLogFile "...Exiting MountDrives()..."
+  LFile.WriteLine("---Entered CheckDir()---")
+UP "Checking directories..."
+NErr = mEDE.CheckDir( "S:\", "True")
+  LFile.WriteLine("NErr = mEDE.CheckDir( ""S:\"", ""True"")")
+NErr = mEDE.CheckDir( "S:\", "True")
+  LFile.WriteLine("NErr = mEDE.CheckDir( ""S:\"", ""True"")")
+NErr = mEDE.CheckDir( "S:\Stds\", "True")
+  LFile.WriteLine("NErr = mEDE.CheckDir( ""S:\Stds\"", ""True"")")
+NErr = mEDE.CheckDir( "S:\Stds\", "True")
+  LFile.WriteLine("NErr = mEDE.CheckDir( ""S:\Stds\"", ""True"")")
+  LFile.WriteLine("...Exiting CheckDir()...")
+  LFile.WriteLine("...Exiting ConfigProject()...")
+mEDE.WriteClientLogFile "...Exiting ConfigProject()..."
+UP "Performing configuration actions..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: SystemConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: SystemConfigActions...")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: GBUConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: GBUConfigActions...")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: SiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: SiteConfigActions...")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: ProjConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: ProjConfigActions...")
+  LFile.WriteLine("Cfg.ProjStdGEPath = S:\Stds\")
+mEDE.WriteClientLogFile "Cfg.ProjStdGEPath = S:\Stds\"
+  LFile.WriteLine("...Exiting PREA ProjConfigActions()...")
+mEDE.WriteClientLogFile "...Exiting PREA ProjConfigActions()..."
+  LFile.WriteLine("---Entered PRE SystemConfigActions()---")
+mEDE.WriteClientLogFile "---Entered PRE SystemConfigActions()---"
+UP "  System..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: SystemConfigActions---")
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\AppMon\sici.exe Arg2: [EDEClientDir]\sici.exe Seq: 1,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\AppMon\sici.exe Arg2: [EDEClientDir]\sici.exe Seq: 1,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\AppMon\sici.exe", "[EDEClientDir]\sici.exe", "True", "SystemConfigActions", "", "", "", "", "1", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\AppMon\sici.exe", "[EDEClientDir]\sici.exe")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\AppMon\sici.exe"", ""[EDEClientDir]\sici.exe"", ""True"", ""SystemConfigActions"", """", """", """", """", ""1"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\AppMon\sici.exe"", ""[EDEClientDir]\sici.exe"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe Arg2: [EDEClientDir]\ParStreamMsgForm.exe Seq: 2,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe Arg2: [EDEClientDir]\ParStreamMsgForm.exe Seq: 2,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe", "[EDEClientDir]\ParStreamMsgForm.exe", "True", "SystemConfigActions", "", "", "", "", "2", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe", "[EDEClientDir]\ParStreamMsgForm.exe")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe"", ""[EDEClientDir]\ParStreamMsgForm.exe"", ""True"", ""SystemConfigActions"", """", """", """", """", ""2"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\ParStreamMessage\ParStreamMsgForm.exe"", ""[EDEClientDir]\ParStreamMsgForm.exe"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\ParStreamMessage\hand.cur Arg2: [EDEClientDir]\hand.cur Seq: 2,2 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\ParStreamMessage\hand.cur Arg2: [EDEClientDir]\hand.cur Seq: 2,2 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\ParStreamMessage\hand.cur", "[EDEClientDir]\hand.cur", "True", "SystemConfigActions", "", "", "", "", "2", "2", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\ParStreamMessage\hand.cur", "[EDEClientDir]\hand.cur")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\ParStreamMessage\hand.cur"", ""[EDEClientDir]\hand.cur"", ""True"", ""SystemConfigActions"", """", """", """", """", ""2"", ""2"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\ParStreamMessage\hand.cur"", ""[EDEClientDir]\hand.cur"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\AppMon\utci.exe Arg2: [EDEClientDir]\utci.exe Seq: 3,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\AppMon\utci.exe Arg2: [EDEClientDir]\utci.exe Seq: 3,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\AppMon\utci.exe", "[EDEClientDir]\utci.exe", "True", "SystemConfigActions", "", "", "", "", "3", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\AppMon\utci.exe", "[EDEClientDir]\utci.exe")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\AppMon\utci.exe"", ""[EDEClientDir]\utci.exe"", ""True"", ""SystemConfigActions"", """", """", """", """", ""3"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\AppMon\utci.exe"", ""[EDEClientDir]\utci.exe"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe Arg2: [EDEClientDir]\ParStreamPrereqInstall.exe Seq: 4,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe Arg2: [EDEClientDir]\ParStreamPrereqInstall.exe Seq: 4,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe", "[EDEClientDir]\ParStreamPrereqInstall.exe", "True", "SystemConfigActions", "", "", "", "", "4", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe", "[EDEClientDir]\ParStreamPrereqInstall.exe")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe"", ""[EDEClientDir]\ParStreamPrereqInstall.exe"", ""True"", ""SystemConfigActions"", """", """", """", """", ""4"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\PrereqInstall\ParStreamPrereqInstall.exe"", ""[EDEClientDir]\ParStreamPrereqInstall.exe"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\SetPlayerCacheSize.vbs Arg2: [SetPlayerCacheSizeProgram] Seq: 5,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\SetPlayerCacheSize.vbs Arg2: [SetPlayerCacheSizeProgram] Seq: 5,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\SetPlayerCacheSize.vbs", "[SetPlayerCacheSizeProgram]", "True", "SystemConfigActions", "", "", "", "", "5", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\SetPlayerCacheSize.vbs", "[SetPlayerCacheSizeProgram]")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\SetPlayerCacheSize.vbs"", ""[SetPlayerCacheSizeProgram]"", ""True"", ""SystemConfigActions"", """", """", """", """", ""5"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\SetPlayerCacheSize.vbs"", ""[SetPlayerCacheSizeProgram]"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\ConfigFiles\SetPlayerLogging.vbs Arg2: [SetPlayerLoggingProgram] Seq: 6,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\ConfigFiles\SetPlayerLogging.vbs Arg2: [SetPlayerLoggingProgram] Seq: 6,1 HaltOnError: True"
+NErr = mEDE.CopyFile( "B:\\ConfigFiles\SetPlayerLogging.vbs", "[SetPlayerLoggingProgram]", "True", "SystemConfigActions", "", "", "", "", "6", "1", "PRE", "CopyFile", "EDEFileStore\ConfigFiles\SetPlayerLogging.vbs", "[SetPlayerLoggingProgram]")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\ConfigFiles\SetPlayerLogging.vbs"", ""[SetPlayerLoggingProgram]"", ""True"", ""SystemConfigActions"", """", """", """", """", ""6"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\ConfigFiles\SetPlayerLogging.vbs"", ""[SetPlayerLoggingProgram]"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: setx.exe FLEXLM_TIMEOUT 20000000 Arg2:  Seq: 7,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: setx.exe FLEXLM_TIMEOUT 20000000 Arg2:  Seq: 7,1 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|setx.exe FLEXLM_TIMEOUT 20000000", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "7", "1", "PRE", "cmd /c", "setx.exe FLEXLM_TIMEOUT 20000000", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|setx.exe FLEXLM_TIMEOUT 20000000"", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""7"", ""1"", ""PRE"", ""cmd /c"", ""setx.exe FLEXLM_TIMEOUT 20000000"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: [SetPlayerCacheSizeProgram] Arg2: [EDEClientDir] Seq: 8,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: [SetPlayerCacheSizeProgram] Arg2: [EDEClientDir] Seq: 8,1 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|[SetPlayerCacheSizeProgram]|[EDEClientDir]", "6", "Yes", "False", "1", "SystemConfigActions", "", "", "", "", "8", "1", "PRE", "cmd /c", "[SetPlayerCacheSizeProgram]", "[EDEClientDir]")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|[SetPlayerCacheSizeProgram]|[EDEClientDir]"", ""6"", ""Yes"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""8"", ""1"", ""PRE"", ""cmd /c"", ""[SetPlayerCacheSizeProgram]"", ""[EDEClientDir]"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: [SetPlayerLoggingProgram] Arg2:  Seq: 9,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: [SetPlayerLoggingProgram] Arg2:  Seq: 9,1 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|[SetPlayerLoggingProgram]", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "9", "1", "PRE", "cmd /c", "[SetPlayerLoggingProgram]", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|[SetPlayerLoggingProgram]"", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""9"", ""1"", ""PRE"", ""cmd /c"", ""[SetPlayerLoggingProgram]"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f Arg2:  Seq: 10,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f Arg2:  Seq: 10,1 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "10", "1", "PRE", "cmd /c", "reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f"", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""10"", ""1"", ""PRE"", ""cmd /c"", ""reg add ""HKCU\Software\Endeavors Technologies\StreamingCore\Settings"" /v DisableLicenseChangePrompt /t REG_DWORD /d 1 /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: CopyFile Arg1: EDEFileStore\Apps\utilities\ZipCopyLogsBySite.cmd Arg2: [EDEClientDir]\ZipCopyLogsBySite.cmd Seq: 11,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: CopyFile Arg1: EDEFileStore\Apps\utilities\ZipCopyLogsBySite.cmd Arg2: [EDEClientDir]\ZipCopyLogsBySite.cmd Seq: 11,1 HaltOnError: False"
+NErr = mEDE.CopyFile( "B:\\Apps\utilities\ZipCopyLogsBySite.cmd", "[EDEClientDir]\ZipCopyLogsBySite.cmd", "False", "SystemConfigActions", "", "", "", "", "11", "1", "PRE", "CopyFile", "EDEFileStore\Apps\utilities\ZipCopyLogsBySite.cmd", "[EDEClientDir]\ZipCopyLogsBySite.cmd")
+  LFile.WriteLine("NErr = mEDE.CopyFile( ""B:\\Apps\utilities\ZipCopyLogsBySite.cmd"", ""[EDEClientDir]\ZipCopyLogsBySite.cmd"", ""False"", ""SystemConfigActions"", """", """", """", """", ""11"", ""1"", ""PRE"", ""CopyFile"", ""EDEFileStore\Apps\utilities\ZipCopyLogsBySite.cmd"", ""[EDEClientDir]\ZipCopyLogsBySite.cmd"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: [EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr] Arg2:  Seq: 11,2 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: [EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr] Arg2:  Seq: 11,2 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|[EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr]", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "11", "2", "PRE", "cmd /c", "[EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr]", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|[EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr]"", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""11"", ""2"", ""PRE"", ""cmd /c"", ""[EDEClientDir]\ZipCopyLogsBySite.cmd [SiteAbbr]"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: del /f ""C:\windows\Downloaded Program Files\Idrop*.*"" Arg2:  Seq: 18,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: del /f ""C:\windows\Downloaded Program Files\Idrop*.*"" Arg2:  Seq: 18,1 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|del /f ""C:\windows\Downloaded Program Files\Idrop*.*""", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "18", "1", "PRE", "cmd /c", "del /f ""C:\windows\Downloaded Program Files\Idrop*.*""", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|del /f ""C:\windows\Downloaded Program Files\Idrop*.*"""", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""18"", ""1"", ""PRE"", ""cmd /c"", ""del /f ""C:\windows\Downloaded Program Files\Idrop*.*"""", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml"" Arg2:  Seq: 18,2 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml"" Arg2:  Seq: 18,2 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml""", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "18", "2", "PRE", "cmd /c", "del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml""", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml"""", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""18"", ""2"", ""PRE"", ""cmd /c"", ""del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.xml"""", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif"" Arg2:  Seq: 18,3 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif"" Arg2:  Seq: 18,3 HaltOnError: False"
+NErr = mEDE.RunCmd( "cmd /c|del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif""", "6", "No", "False", "1", "SystemConfigActions", "", "", "", "", "18", "3", "PRE", "cmd /c", "del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif""", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif"""", ""6"", ""No"", ""False"", ""1"", ""SystemConfigActions"", """", """", """", """", ""18"", ""3"", ""PRE"", ""cmd /c"", ""del /f ""C:\Program Files (x86)\AutoCAD Civil 3D 2010\HTML\idrop.gif"""", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: RemoveApp Arg1: 87C73BD8-12BC-4A9A-958C-4CB56D04AF3C,D263F8FC-DA9C-4890-8CE8-DAEC60D33692,D06B0AC8-2A51-4006-9517-6287D9033493 Arg2:  Seq: 19,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: RemoveApp Arg1: 87C73BD8-12BC-4A9A-958C-4CB56D04AF3C,D263F8FC-DA9C-4890-8CE8-DAEC60D33692,D06B0AC8-2A51-4006-9517-6287D9033493 Arg2:  Seq: 19,1 HaltOnError: False"
+NErr = mEDE.RunEdeCmd( "RemoveApp|87C73BD8-12BC-4A9A-958C-4CB56D04AF3C", "False", "SystemConfigActions", "", "", "", "", "19", "1", "PRE", "RemoveApp", "87C73BD8-12BC-4A9A-958C-4CB56D04AF3C")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|87C73BD8-12BC-4A9A-958C-4CB56D04AF3C"", ""False"", ""SystemConfigActions"", """", """", """", """", ""19"", ""1"", ""PRE"", ""RemoveApp"", ""87C73BD8-12BC-4A9A-958C-4CB56D04AF3C"")")
+NErr = mEDE.RunEdeCmd( "RemoveApp|D263F8FC-DA9C-4890-8CE8-DAEC60D33692", "False", "SystemConfigActions", "", "", "", "", "19", "1", "PRE", "RemoveApp", "D263F8FC-DA9C-4890-8CE8-DAEC60D33692")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|D263F8FC-DA9C-4890-8CE8-DAEC60D33692"", ""False"", ""SystemConfigActions"", """", """", """", """", ""19"", ""1"", ""PRE"", ""RemoveApp"", ""D263F8FC-DA9C-4890-8CE8-DAEC60D33692"")")
+NErr = mEDE.RunEdeCmd( "RemoveApp|D06B0AC8-2A51-4006-9517-6287D9033493", "False", "SystemConfigActions", "", "", "", "", "19", "1", "PRE", "RemoveApp", "D06B0AC8-2A51-4006-9517-6287D9033493")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|D06B0AC8-2A51-4006-9517-6287D9033493"", ""False"", ""SystemConfigActions"", """", """", """", """", ""19"", ""1"", ""PRE"", ""RemoveApp"", ""D06B0AC8-2A51-4006-9517-6287D9033493"")")
+  LFile.WriteLine("Command: RemoveApp Arg1: 11F2748A-16DE-42E0-B4C9-B61CD41970EB,9C933128-FB43-4165-983D-79121A25A171,81DC4586-5958-48AE-8165-9D00233276E2,4CD9D86B-C3F4-4C62-B959-277021B4A385 Arg2:  Seq: 20,1 HaltOnError: False")
+mEDE.WriteClientLogFile "Command: RemoveApp Arg1: 11F2748A-16DE-42E0-B4C9-B61CD41970EB,9C933128-FB43-4165-983D-79121A25A171,81DC4586-5958-48AE-8165-9D00233276E2,4CD9D86B-C3F4-4C62-B959-277021B4A385 Arg2:  Seq: 20,1 HaltOnError: False"
+NErr = mEDE.RunEdeCmd( "RemoveApp|11F2748A-16DE-42E0-B4C9-B61CD41970EB", "False", "SystemConfigActions", "", "", "", "", "20", "1", "PRE", "RemoveApp", "11F2748A-16DE-42E0-B4C9-B61CD41970EB")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|11F2748A-16DE-42E0-B4C9-B61CD41970EB"", ""False"", ""SystemConfigActions"", """", """", """", """", ""20"", ""1"", ""PRE"", ""RemoveApp"", ""11F2748A-16DE-42E0-B4C9-B61CD41970EB"")")
+NErr = mEDE.RunEdeCmd( "RemoveApp|9C933128-FB43-4165-983D-79121A25A171", "False", "SystemConfigActions", "", "", "", "", "20", "1", "PRE", "RemoveApp", "9C933128-FB43-4165-983D-79121A25A171")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|9C933128-FB43-4165-983D-79121A25A171"", ""False"", ""SystemConfigActions"", """", """", """", """", ""20"", ""1"", ""PRE"", ""RemoveApp"", ""9C933128-FB43-4165-983D-79121A25A171"")")
+NErr = mEDE.RunEdeCmd( "RemoveApp|81DC4586-5958-48AE-8165-9D00233276E2", "False", "SystemConfigActions", "", "", "", "", "20", "1", "PRE", "RemoveApp", "81DC4586-5958-48AE-8165-9D00233276E2")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|81DC4586-5958-48AE-8165-9D00233276E2"", ""False"", ""SystemConfigActions"", """", """", """", """", ""20"", ""1"", ""PRE"", ""RemoveApp"", ""81DC4586-5958-48AE-8165-9D00233276E2"")")
+NErr = mEDE.RunEdeCmd( "RemoveApp|4CD9D86B-C3F4-4C62-B959-277021B4A385", "False", "SystemConfigActions", "", "", "", "", "20", "1", "PRE", "RemoveApp", "4CD9D86B-C3F4-4C62-B959-277021B4A385")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|4CD9D86B-C3F4-4C62-B959-277021B4A385"", ""False"", ""SystemConfigActions"", """", """", """", """", ""20"", ""1"", ""PRE"", ""RemoveApp"", ""4CD9D86B-C3F4-4C62-B959-277021B4A385"")")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: SystemConfigActions...")
+  LFile.WriteLine("System ECOM File: [EDEFileStore]\ConfigFiles\system.ECOM")
+mEDE.WriteClientLogFile "System ECOM File: [EDEFileStore]\ConfigFiles\system.ECOM"
+FErr = mEde.RunECom(MT, "[EDEFileStore]\ConfigFiles\system.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""[EDEFileStore]\ConfigFiles\system.ECOM"")")
+  LFile.WriteLine("...Exiting PRE SystemConfigActions()...")
+mEDE.WriteClientLogFile "...Exiting PRE SystemConfigActions()..."
+  LFile.WriteLine("---Entered PRE GBUConfigActions()---")
+mEDE.WriteClientLogFile "---Entered PRE GBUConfigActions()---"
+UP "  GBU..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: GBUConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: GBUConfigActions...")
+  LFile.WriteLine("GBU ECOM File: [EDEFileStore]\ConfigFiles\OTHER.ECOM")
+mEDE.WriteClientLogFile "GBU ECOM File: [EDEFileStore]\ConfigFiles\OTHER.ECOM"
+FErr = mEde.RunECom(MT, "[EDEFileStore]\ConfigFiles\OTHER.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""[EDEFileStore]\ConfigFiles\OTHER.ECOM"")")
+  LFile.WriteLine("...Exiting PRE GBUConfigActions()...")
+mEDE.WriteClientLogFile "...Exiting PRE GBUConfigActions()..."
+  LFile.WriteLine("---Entered PRE SiteConfigActions()---")
+mEDE.WriteClientLogFile "---Entered PRE SiteConfigActions()---"
+UP "  Site..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: SiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: SiteConfigActions...")
+  LFile.WriteLine("Site ECOM File: [EDEFileStore]\ConfigFiles\CAPAS01.ECOM")
+mEDE.WriteClientLogFile "Site ECOM File: [EDEFileStore]\ConfigFiles\CAPAS01.ECOM"
+FErr = mEde.RunECom(MT, "[EDEFileStore]\ConfigFiles\CAPAS01.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""[EDEFileStore]\ConfigFiles\CAPAS01.ECOM"")")
+  LFile.WriteLine("...Exiting PRE SiteConfigActions()...")
+mEDE.WriteClientLogFile "...Exiting PRE SiteConfigActions()..."
+  LFile.WriteLine("---Entered PRE ProjConfigActions()---")
+mEDE.WriteClientLogFile "---Entered PRE ProjConfigActions()---"
+  LFile.WriteLine("ProjID = 7")
+mEDE.WriteClientLogFile "ProjID = 7"
+  LFile.WriteLine("---Entered ConfigAction() DBTable: ProjConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: ProjConfigActions...")
+  LFile.WriteLine("Cfg.ProjStdGEPath = S:\Stds\")
+mEDE.WriteClientLogFile "Cfg.ProjStdGEPath = S:\Stds\"
+  LFile.WriteLine("Project ECOM File: S:\Stds\ENGSYS.ECOM")
+mEDE.WriteClientLogFile "Project ECOM File: S:\Stds\ENGSYS.ECOM"
+FErr = mEde.RunECom(MT, "S:\Stds\ENGSYS.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""S:\Stds\ENGSYS.ECOM"")")
+  LFile.WriteLine("...Exiting PRE ProjConfigActions()...")
+mEDE.WriteClientLogFile "...Exiting PRE ProjConfigActions()..."
+  LFile.WriteLine("---Entered WriteLaunchInfoRegistry()---")
+mEDE.WriteClientLogFile "---Entered WriteLaunchInfoRegistry()---"
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppGUIDsToActivate", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppGUIDsToActivate"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppGUIDsToDeactivate", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppGUIDsToDeactivate"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "APPID", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""APPID"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppLaunchCommand", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppLaunchCommand"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonActive", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonActive"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonEnableSICI", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonEnableSICI"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonPollInterval", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonPollInterval"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonReloadFrequency", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonReloadFrequency"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonSICItimeout", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonSICItimeout"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonWebServer", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonWebServer"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonUTCIsource", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonUTCIsource"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonUTCIdestination", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonUTCIdestination"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "PID", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""PID"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "PostExecutionCommand", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""PostExecutionCommand"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "SessionID", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""SessionID"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "SICICommand", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""SICICommand"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UTCICommand", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UTCICommand"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UTCIDelay", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UTCIDelay"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UserID", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UserID"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "WaitForApp", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""WaitForApp"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "WorkingDirectory", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""WorkingDirectory"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppGUIDsToDeactivate", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppGUIDsToDeactivate"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppGUIDsToActivate", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppGUIDsToActivate"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppLaunchCommand", "cmd /c cd C:\Bentley\AutoPIPE_BatchGenerator & BatchGen.exe ", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppLaunchCommand"", ""cmd /c cd C:\Bentley\AutoPIPE_BatchGenerator & BatchGen.exe "", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "WaitForApp", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""WaitForApp"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "WorkingDirectory", "C:\Bentley\AutoPIPE_BatchGenerator", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""WorkingDirectory"", ""C:\Bentley\AutoPIPE_BatchGenerator"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "PostExecutionCommand", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""PostExecutionCommand"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "PID", processId, "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""PID"", "" & processId & "", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "SessionID", "021816Cfg15390", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""SessionID"", ""021816Cfg15390"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UserID", "UserLoginName", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UserID"", ""UserLoginName"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonActive", "0", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonActive"", ""0"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonEnableSICI", "1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonEnableSICI"", ""1"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonPollInterval", "2", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonPollInterval"", ""2"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonReloadfrequency", "0.1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonReloadfrequency"", ""0.1"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonSICItimeout", "480", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonSICItimeout"", ""480"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonWebServer", "http://10.4.10.101:8080", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonWebServer"", ""http://10.4.10.101:8080"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonUTCIsource", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonUTCIsource"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "AppMonUTCIdestination", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""AppMonUTCIdestination"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "SICICommand", "[EDEClientDir]\sici.exe", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""SICICommand"", ""[EDEClientDir]\sici.exe"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UTCICommand", "[EDEClientDir]\utci.exe 10.4.10.102.ParStreamStagingDB", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UTCICommand"", ""[EDEClientDir]\utci.exe 10.4.10.102.ParStreamStagingDB"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo", "UTCIDelay", "20", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo"", ""UTCIDelay"", ""20"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "HTAHaltFlag", "0", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""HTAHaltFlag"", ""0"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "CSV", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""CSV"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value01", "1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value01"", ""1"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value02", "7", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value02"", ""7"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value03", "-2", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value03"", ""-2"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value04", "-2", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value04"", ""-2"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value05", "594", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value05"", ""594"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value06", "888888", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value06"", ""888888"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value07", "88888", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value07"", ""88888"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value08", "1", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value08"", ""1"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value09", "", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value09"", """", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value10", "5", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value10"", ""5"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value11", "Pasadena, CA", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value11"", ""Pasadena, CA"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value12", "Engineering Systems Support", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value12"", ""Engineering Systems Support"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value13", "<n/a>", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value13"", ""<n/a>"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value14", "<n/a>", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value14"", ""<n/a>"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "Value15", "Bentley AutoPIPE Batch Generator", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\SessionInfo"", ""Value15"", ""Bentley AutoPIPE Batch Generator"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\021816Cfg15390JWList", "JW-1", "888888;88888;For Testing8", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\021816Cfg15390JWList"", ""JW-1"", ""888888;88888;For Testing8"", ""True""")
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\021816Cfg15390JWList", "JW-2", "999999;99999;For Testing9", "True"
+  LFile.WriteLine("mEDE.RegEntryG ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\LaunchInfo\021816Cfg15390JWList"", ""JW-2"", ""999999;99999;For Testing9"", ""True""")
+  LFile.WriteLine("DeleteFile: C:\Windows\Temp\rad4912D.tmp.TXT")
+  LFile.WriteLine("...Exiting WriteLaunchInfoRegistry()...")
+mEDE.WriteClientLogFile "...Exiting WriteLaunchInfoRegistry()..."
+mEDE.DefineCommonConstants
+  LFile.WriteLine("mEDE.DefineCommonConstants")
+HTAHaltFlag = mEDE.GetHTAHaltFlag
+If HTAHaltFlag = 0 Then
+Else
+  UP "An error was encountered."
+End If
+
+End Sub
+
+Sub RunEdeAppConfig()
+
+  On Error Resume Next
+
+  LFile.WriteLine("---Entered PREA ConfigApp() ---  AppGroupID = 86  AppID = 594")
+mEDE.WriteClientLogFile "---Entered PREA ConfigApp() ---  AppGroupID = 86  AppID = 594"
+UP "Performing application group configuration actions..."
+  LFile.WriteLine("---Entered GetAppGroupID()---  AppID = 594")
+  LFile.WriteLine("AppID = 594")
+  LFile.WriteLine("...Exiting GetAppGroupID()...")
+  LFile.WriteLine("1. Common AppGroup Database Config Actions")
+mEDE.WriteClientLogFile "1. Common AppGroup Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PREA---AppGroupID = 86 AppID = 594")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppGroupConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PREA...")
+  LFile.WriteLine("3. Site Specific Database AppGroup Config Actions")
+mEDE.WriteClientLogFile "3. Site Specific Database AppGroup Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PREA---AppGroupID = 86 AppID = 594")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppGroupSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PREA...")
+  LFile.WriteLine("9. Common App Database Config Actions")
+mEDE.WriteClientLogFile "9. Common App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PREA---AppGroupID = 86 AppID = 594")
+UP "Performing application configuration actions..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PREA...")
+  LFile.WriteLine("11. Site Specific App Database Config Actions")
+mEDE.WriteClientLogFile "11. Site Specific App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PREA---AppGroupID = 86 AppID = 594")
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PREA...")
+  LFile.WriteLine("...Exiting PREA ConfigApp()...")
+mEDE.WriteClientLogFile "...Exiting PREA ConfigApp()..."
+  LFile.WriteLine("---Entered PRE ConfigApp() ---  AppGroupID = 86  AppID = 594")
+mEDE.WriteClientLogFile "---Entered PRE ConfigApp() ---  AppGroupID = 86  AppID = 594"
+UP "Performing application group configuration actions..."
+  LFile.WriteLine("---Entered GetAppGroupID()---  AppID = 594")
+  LFile.WriteLine("AppID = 594")
+  LFile.WriteLine("...Exiting GetAppGroupID()...")
+  LFile.WriteLine("1. Common AppGroup Database Config Actions")
+mEDE.WriteClientLogFile "1. Common AppGroup Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 86 AppID = 594")
+UP "  Common..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppGroupConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("2. Common AppGroup .ECOM File")
+mEDE.WriteClientLogFile "2. Common AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\DUMMY\DUMMY.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\DUMMY\DUMMY.ECOM"")")
+  LFile.WriteLine("3. Site Specific Database AppGroup Config Actions")
+mEDE.WriteClientLogFile "3. Site Specific Database AppGroup Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 86 AppID = 594")
+UP "  Site..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppGroupSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("4. Site Specific AppGroup .ECOM File")
+mEDE.WriteClientLogFile "4. Site Specific AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\DUMMY\DUMMY_CAPAS01\DUMMY_CAPAS01.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\DUMMY\DUMMY_CAPAS01\DUMMY_CAPAS01.ECOM"")")
+UP "  Company standards - general..."
+  LFile.WriteLine("5. Company Standards (GE) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "5. Company Standards (GE) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because CmpyStdGEPath = <not defined>")
+mEDE.WriteClientLogFile "   Skip because CmpyStdGEPath = <not defined>"
+UP "  Company standards - discipline..."
+  LFile.WriteLine("6. Company Stadards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "6. Company Stadards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because CmpyStdDiscPath = <not defined>")
+mEDE.WriteClientLogFile "   Skip because CmpyStdDiscPath = <not defined>"
+UP "  Project standards - general..."
+  LFile.WriteLine("7. Project Stadards (GE) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "7. Project Stadards (GE) AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "S:\Stds\DUMMY\DUMMY.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""S:\Stds\DUMMY\DUMMY.ECOM"")")
+UP "  Project standards - discipline..."
+  LFile.WriteLine("8. Project Standards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "8. Project Standards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because ProjStdDiscPath = <n/a>")
+mEDE.WriteClientLogFile "   Skip because ProjStdDiscPath = <n/a>"
+  LFile.WriteLine("9. Common App Database Config Actions")
+mEDE.WriteClientLogFile "9. Common App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 86 AppID = 594")
+UP "Performing application configuration actions..."
+UP "  Common..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppConfigActions---")
+  LFile.WriteLine("Command: DoAppsets Arg1: 592 Arg2:  Seq: 1,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: DoAppsets Arg1: 592 Arg2:  Seq: 1,1 HaltOnError: True"
+  LFile.WriteLine("DoAppsets AppIDList = 592")
+mEDE.WriteClientLogFile "DoAppsets AppIDList = 592"
+  LFile.WriteLine("DoAppsets AppID = 592")
+mEDE.WriteClientLogFile "DoAppsets AppID = 592"
+mEDE.DOAPPSETS_START
+  mEDE.DOAPPSET "0C7F0A63-5EC7-4475-9092-DAE0081F5EAF, 592, Bentley AutoPIPE V8i_SS5 09.06.00.15, 466, 1" 
+  mEDE.DOAPPSET "1A304DCA-56B1-4D61-B31D-1D57088CFC29, 592, Prereqs-General, 2, 1" 
+mEDE.DOAPPSETS_END pwMsg, pwBar, jukeboxTokenUrl
+window.focus()
+  LFile.WriteLine("Command: DoConfig Arg1: 17 Arg2: 592 Seq: 1,2 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: DoConfig Arg1: 17 Arg2: 592 Seq: 1,2 HaltOnError: True"
+  LFile.WriteLine("---Entered GetAppGroupID()---  AppID = 592")
+  LFile.WriteLine("AppID = 592")
+  LFile.WriteLine("...Exiting GetAppGroupID()...")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "592"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""592""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppAbbr", "AUTOPIPEV8ISSX"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppAbbr"", ""AUTOPIPEV8ISSX""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppVersion", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppVersion"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupID", "17"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupID"", ""17""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupAbbr", "BENTLEY"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupAbbr"", ""BENTLEY""")
+  LFile.WriteLine("---Entered WriteInfoValuesAppGroup()---strAppGroupID = 17")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupID", "17"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupID"", ""17""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupAbbr", "BENTLEY"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupAbbr"", ""BENTLEY""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupName", "Bentley"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupName"", ""Bentley""")
+  LFile.WriteLine("...Exiting WriteInfoValuesAppGroup()...")
+  LFile.WriteLine("---Entered WriteInfoValuesApp()---")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "592"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""592""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppAbbr", "AUTOPIPEV8ISSX"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppAbbr"", ""AUTOPIPEV8ISSX""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppName", "Bentley AutoPIPE V8i_SS5 09.06.00.15"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppName"", ""Bentley AutoPIPE V8i_SS5 09.06.00.15""")
+  LFile.WriteLine("...Exiting WriteInfoValuesApp()...")
+UP "Command: DOCONFIG..."
+  LFile.WriteLine("---Entered PRE ConfigApp() ---  AppGroupID = 17  AppID = 592")
+mEDE.WriteClientLogFile "---Entered PRE ConfigApp() ---  AppGroupID = 17  AppID = 592"
+UP "Performing application group configuration actions..."
+  LFile.WriteLine("---Entered GetAppGroupID()---  AppID = 592")
+  LFile.WriteLine("AppID = 592")
+  LFile.WriteLine("...Exiting GetAppGroupID()...")
+  LFile.WriteLine("1. Common AppGroup Database Config Actions")
+mEDE.WriteClientLogFile "1. Common AppGroup Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 17 AppID = 592")
+UP "  Common..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupConfigActions---")
+  LFile.WriteLine("Command: RemoveApp Arg1: 9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F Arg2:  Seq: 1,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: RemoveApp Arg1: 9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F Arg2:  Seq: 1,1 HaltOnError: True"
+NErr = mEDE.RunEdeCmd( "RemoveApp|9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F", "True", "AppGroupConfigActions", "AppGroupID", "17", "", "", "1", "1", "PRE", "RemoveApp", "9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""RemoveApp|9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F"", ""True"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""1"", ""1"", ""PRE"", ""RemoveApp"", ""9DE2F9E0-59E7-4A5B-8839-FF9E0D317F0F"")")
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,1 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "6", "Yes", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "1", "PRE", "cmd /c", "reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", ""6"", ""Yes"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""1"", ""PRE"", ""cmd /c"", ""reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f Arg2:  Seq: 2,2 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f Arg2:  Seq: 2,2 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f", "6", "No", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "2", "PRE", "cmd /c", "reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f"", ""6"", ""No"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""2"", ""PRE"", ""cmd /c"", ""reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f Arg2:  Seq: 2,3 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f Arg2:  Seq: 2,3 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f", "6", "No", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "3", "PRE", "cmd /c", "reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f"", ""6"", ""No"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""3"", ""PRE"", ""cmd /c"", ""reg add ""HKLM\Software\Wow6432Node\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,4 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,4 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "6", "Yes", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "4", "PRE", "cmd /c", "reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", ""6"", ""Yes"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""4"", ""PRE"", ""cmd /c"", ""reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f Arg2:  Seq: 2,5 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f Arg2:  Seq: 2,5 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f", "6", "No", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "5", "PRE", "cmd /c", "reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f"", ""6"", ""No"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""5"", ""PRE"", ""cmd /c"", ""reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Activation"" /t REG_SZ /d [BentleyActivationInfo] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f Arg2:  Seq: 2,6 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f Arg2:  Seq: 2,6 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f", "6", "No", "True", "1", "AppGroupConfigActions", "AppGroupID", "17", "", "", "2", "6", "PRE", "cmd /c", "reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f"", ""6"", ""No"", ""True"", ""1"", ""AppGroupConfigActions"", ""AppGroupID"", ""17"", """", """", ""2"", ""6"", ""PRE"", ""cmd /c"", ""reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Country"" /t REG_SZ /d [BentleyLicenseCountry] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("2. Common AppGroup .ECOM File")
+mEDE.WriteClientLogFile "2. Common AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\BENTLEY\BENTLEY.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\BENTLEY\BENTLEY.ECOM"")")
+  LFile.WriteLine("3. Site Specific Database AppGroup Config Actions")
+mEDE.WriteClientLogFile "3. Site Specific Database AppGroup Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 17 AppID = 592")
+UP "  Site..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppGroupSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppGroupSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("4. Site Specific AppGroup .ECOM File")
+mEDE.WriteClientLogFile "4. Site Specific AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\BENTLEY\BENTLEY_CAPAS01\BENTLEY_CAPAS01.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\BENTLEY\BENTLEY_CAPAS01\BENTLEY_CAPAS01.ECOM"")")
+UP "  Company standards - general..."
+  LFile.WriteLine("5. Company Standards (GE) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "5. Company Standards (GE) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because CmpyStdGEPath = <not defined>")
+mEDE.WriteClientLogFile "   Skip because CmpyStdGEPath = <not defined>"
+UP "  Company standards - discipline..."
+  LFile.WriteLine("6. Company Stadards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "6. Company Stadards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because CmpyStdDiscPath = <not defined>")
+mEDE.WriteClientLogFile "   Skip because CmpyStdDiscPath = <not defined>"
+UP "  Project standards - general..."
+  LFile.WriteLine("7. Project Stadards (GE) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "7. Project Stadards (GE) AppGroup .ECOM File"
+FErr = mEde.RunECom(MT, "S:\Stds\BENTLEY\BENTLEY.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""S:\Stds\BENTLEY\BENTLEY.ECOM"")")
+UP "  Project standards - discipline..."
+  LFile.WriteLine("8. Project Standards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "8. Project Standards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("   Skip because ProjStdDiscPath = <n/a>")
+mEDE.WriteClientLogFile "   Skip because ProjStdDiscPath = <n/a>"
+  LFile.WriteLine("9. Common App Database Config Actions")
+mEDE.WriteClientLogFile "9. Common App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 17 AppID = 592")
+UP "Performing application configuration actions..."
+UP "  Common..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppConfigActions---")
+  LFile.WriteLine("Command: InstallPrereq Arg1: [PrereqInstallProgram] Arg2: :MSXML_4_Sp2:VC80_D_x86:VC80_B_x86:VC80_A_x86:VC90_B_x86: Seq: 1,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: InstallPrereq Arg1: [PrereqInstallProgram] Arg2: :MSXML_4_Sp2:VC80_D_x86:VC80_B_x86:VC80_A_x86:VC90_B_x86: Seq: 1,1 HaltOnError: True"
+NErr = mEDE.RunEdeCmd( "InstallPrereq|[PrereqInstallProgram]|:MSXML_4_Sp2:VC80_D_x86:VC80_B_x86:VC80_A_x86:VC90_B_x86:", "True", "AppConfigActions", "AppID", "592", "", "", "1", "1", "PRE", "InstallPrereq", "[PrereqInstallProgram]")
+  LFile.WriteLine("NErr = mEDE.RunEdeCmd( ""InstallPrereq|[PrereqInstallProgram]|:MSXML_4_Sp2:VC80_D_x86:VC80_B_x86:VC80_A_x86:VC90_B_x86:"", ""True"", ""AppConfigActions"", ""AppID"", ""592"", """", """", ""1"", ""1"", ""PRE"", ""InstallPrereq"", ""[PrereqInstallProgram]"")")
+  LFile.WriteLine("Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,1 HaltOnError: True")
+mEDE.WriteClientLogFile "Command: cmd /c Arg1: reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f Arg2:  Seq: 2,1 HaltOnError: True"
+NErr = mEDE.RunCmd( "cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "6", "Yes", "True", "1", "AppConfigActions", "AppID", "592", "", "", "2", "1", "PRE", "cmd /c", "reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f", "")
+  LFile.WriteLine("NErr = mEDE.RunCmd( ""cmd /c|reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", ""6"", ""Yes"", ""True"", ""1"", ""AppConfigActions"", ""AppID"", ""592"", """", """", ""2"", ""1"", ""PRE"", ""cmd /c"", ""reg add ""HKCU\Software\Bentley\Licensing\1.1"" /v ""Server"" /t REG_SZ /d [BentleyLicenseInfo] /f"", """")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("10. Common App .ECOM File")
+mEDE.WriteClientLogFile "10. Common App .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX.ECOM"")")
+  LFile.WriteLine("11. Site Specific App Database Config Actions")
+mEDE.WriteClientLogFile "11. Site Specific App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 17 AppID = 592")
+UP "  Site..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("12. Site Specific App .ECOM File")
+mEDE.WriteClientLogFile "12. Site Specific App .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX_CAPAS01\AUTOPIPEV8ISSX_CAPAS01.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX_CAPAS01\AUTOPIPEV8ISSX_CAPAS01.ECOM"")")
+UP "  Company standards - general..."
+  LFile.WriteLine("13. Company Stadards (GE) App .ECOM File")
+mEDE.WriteClientLogFile "13. Company Stadards (GE) App .ECOM File"
+  LFile.WriteLine("    Skip because CmpyStdGEPath = <not defined>")
+mEDE.WriteClientLogFile "    Skip because CmpyStdGEPath = <not defined>"
+UP "  Company standards - discipline..."
+  LFile.WriteLine("14. Company Stadards (Discipline) App .ECOM File")
+mEDE.WriteClientLogFile "14. Company Stadards (Discipline) App .ECOM File"
+  LFile.WriteLine("    Skip because CmpyStdDiscPath = <not defined>")
+mEDE.WriteClientLogFile "    Skip because CmpyStdDiscPath = <not defined>"
+UP "  Project standards - general..."
+  LFile.WriteLine("15. Project Standards (GE) App .ECOM File")
+mEDE.WriteClientLogFile "15. Project Standards (GE) App .ECOM File"
+FErr = mEde.RunECom(MT, "S:\Stds\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""S:\Stds\BENTLEY\AUTOPIPEV8ISSX\AUTOPIPEV8ISSX.ECOM"")")
+UP "  Project standards - discipline..."
+  LFile.WriteLine("16. Project Standards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "16. Project Standards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("    Skip because ProjStdDiscPath = <n/a>")
+mEDE.WriteClientLogFile "    Skip because ProjStdDiscPath = <n/a>"
+  LFile.WriteLine("...Exiting PRE ConfigApp()...")
+mEDE.WriteClientLogFile "...Exiting PRE ConfigApp()..."
+UP "End DOCONFIG."
+mEDE.WriteClientLogFile "End of DoConfig"
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppID", "594"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppID"", ""594""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppAbbr", "AUTOPIPEBATCH"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppAbbr"", ""AUTOPIPEBATCH""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppVersion", ""
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppVersion"", """"")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupID", "86"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupID"", ""86""")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppGroupAbbr", "DUMMY"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppGroupAbbr"", ""DUMMY""")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("10. Common App .ECOM File")
+mEDE.WriteClientLogFile "10. Common App .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH.ECOM"")")
+  LFile.WriteLine("11. Site Specific App Database Config Actions")
+mEDE.WriteClientLogFile "11. Site Specific App Database Config Actions"
+  LFile.WriteLine("---Entered ConfigAppDB() Type = PRE---AppGroupID = 86 AppID = 594")
+UP "  Site..."
+  LFile.WriteLine("---Entered ConfigAction() DBTable: AppSiteConfigActions---")
+  LFile.WriteLine("...Exiting ConfigAction() DBTable: AppSiteConfigActions...")
+  LFile.WriteLine("...Exiting ConfigAppDB() ExecType = PRE...")
+  LFile.WriteLine("12. Site Specific App .ECOM File")
+mEDE.WriteClientLogFile "12. Site Specific App .ECOM File"
+FErr = mEde.RunECom(MT, "B:\Apps\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH_CAPAS01\AUTOPIPEBATCH_CAPAS01.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""B:\Apps\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH_CAPAS01\AUTOPIPEBATCH_CAPAS01.ECOM"")")
+UP "  Company standards - general..."
+  LFile.WriteLine("13. Company Stadards (GE) App .ECOM File")
+mEDE.WriteClientLogFile "13. Company Stadards (GE) App .ECOM File"
+  LFile.WriteLine("    Skip because CmpyStdGEPath = <not defined>")
+mEDE.WriteClientLogFile "    Skip because CmpyStdGEPath = <not defined>"
+UP "  Company standards - discipline..."
+  LFile.WriteLine("14. Company Stadards (Discipline) App .ECOM File")
+mEDE.WriteClientLogFile "14. Company Stadards (Discipline) App .ECOM File"
+  LFile.WriteLine("    Skip because CmpyStdDiscPath = <not defined>")
+mEDE.WriteClientLogFile "    Skip because CmpyStdDiscPath = <not defined>"
+UP "  Project standards - general..."
+  LFile.WriteLine("15. Project Standards (GE) App .ECOM File")
+mEDE.WriteClientLogFile "15. Project Standards (GE) App .ECOM File"
+FErr = mEde.RunECom(MT, "S:\Stds\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH.ECOM")
+LFile.WriteLine("FErr = mEde.RunECom(MT, ""S:\Stds\DUMMY\AUTOPIPEBATCH\AUTOPIPEBATCH.ECOM"")")
+UP "  Project standards - discipline..."
+  LFile.WriteLine("16. Project Standards (Discipline) AppGroup .ECOM File")
+mEDE.WriteClientLogFile "16. Project Standards (Discipline) AppGroup .ECOM File"
+  LFile.WriteLine("    Skip because ProjStdDiscPath = <n/a>")
+mEDE.WriteClientLogFile "    Skip because ProjStdDiscPath = <n/a>"
+  LFile.WriteLine("...Exiting PRE ConfigApp()...")
+mEDE.WriteClientLogFile "...Exiting PRE ConfigApp()..."
+  LFile.WriteLine("---Entered LaunchAppl()---")
+mEDE.WriteClientLogFile "---Entered LaunchAppl()---"
+  LFile.WriteLine("---Entered SetAppWorkingDir()---")
+  LFile.WriteLine("AppWorkingDir: C:\Bentley\AutoPIPE_BatchGenerator")
+mEDE.RegEntry "HKEY_CURRENT_USER", "Software\Parsons\ParStream\021816Cfg15390", "AppWorkingDir", "C:\Bentley\AutoPIPE_BatchGenerator"
+  LFile.WriteLine("mEDE.RegEntry ""HKEY_CURRENT_USER"", ""Software\Parsons\ParStream\021816Cfg15390"", ""AppWorkingDir"", ""C:\Bentley\AutoPIPE_BatchGenerator""")
+NErr = mEDE.ChangeDir( "C:\Bentley\AutoPIPE_BatchGenerator")
+  LFile.WriteLine("NErr = mEDE.ChangeDir( ""C:\Bentley\AutoPIPE_BatchGenerator"")")
+  LFile.WriteLine(" ""NErr = " & NErr)
+  LFile.WriteLine("...Exiting SetAppWorkingDir()...")
+
+HTAHaltFlag = mEDE.GetHTAHaltFlag
+mEDE.RegEntryG "HKEY_CURRENT_USER", "Software\Parsons\ParStream\LaunchInfo\SessionInfo", "HTAHaltFlag", HTAHaltFlag, "True"
+If HTAHaltFlag = 0 Then
+Else
+  UP "An error was encountered."
+End If
+
+Workstation = mEDE.GetRegSetting("HKEY_CURRENT_USER\Software\Parsons\ParStream\021816Cfg15390\CpuName", "", "")
+LFile.WriteLine " Workstation = " & Workstation
+
+End Sub
+
+Sub Special_HTA_Created_Variables()
+
+ gPREACreated = 0
+ gOOACreated = 0
+ gOOMCreated = 0
+
+End Sub
+
+
+</script>
+</head>
+
+<body scroll="no">
+  <div class="image" align="center">
+    <img src="..\images\ParStreamJB_Logo.jpg" />
+  </div><hr style="height:0;">
+  <div style="height:50px; width:100%; border-width:0;">
+    <textarea id="pwMsg" readonly rows="10" class="txtarea"></textarea>
+  </div>
+  <div style="position:relative; width:100%; font-size:7px; bottom:5px;"></div>
+  <span ID="pwBar" class="pgbar"></span>
+</body>
+</html>

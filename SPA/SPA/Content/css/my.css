@@ -1,0 +1,57 @@
+﻿.btn-sq {
+  width: 150px !important;
+  height: 150px !important;
+  font-size: 15px;
+  font-weight:bold;
+  float:right;
+  position:relative;
+  left:-50%;
+}
+.btn-sq-sm {
+  width: 100px !important;
+  height: 100px !important;
+  font-size: 15px;
+  font-weight:bold;
+  
+  float:right;
+  position:relative;
+  left:-50%;
+}
+
+
+.btn-solution {
+    position: relative;
+    width: 250px !important;
+    height: 250px !important;
+    float:inherit;
+    left: 0;
+}
+
+.btn-solution-text {
+    position: absolute;
+    font-weight: bold;
+    font-size:15px;
+    color: #fff;
+    bottom: 0;
+    text-align: center !important;
+    left:10px;
+}
+
+.btn-solution-img {
+    width: inherit;
+    height: inherit;
+}
+
+#logo-main {
+  display: block;
+  margin: 0px auto;
+  width: 1000px;
+}
+@font-face{
+    font-family:Myfont;
+    src:url('images/D.ttf');
+}
+.nh2{
+    font-family:Myfont !important;
+    font-size:x-large !important;
+}

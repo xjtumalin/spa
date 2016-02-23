@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>DAPP</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1000, user-scalable=no">
+<link href="content/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+<link href="content/megamenu/css/style.css" rel="stylesheet">
+<link href="content/css/my.css" rel="stylesheet">
+</head>
+
+<body ng-app="app" ng-cloak>
+<img src="images/dapp_header_2120px.png" width="100%" alt="" />
+<div class="header-location" style="float:left"> Location: <strong>Aiken, South Carolina, USA</strong></div>
+<div class="header-username" style="float:right;padding-right:25px"><strong>Smith, John Doe EID# 4324957</strong> (<a href="#">Logout</a>)</div>
+<div class="container-fluid" style="padding: 1px 0px 10px; width:100%"> <br />
+  <br />
+  <div class="menu-container">
+    <div class="menu" style="width:100%">
+      <ul style="background-color:#db8c25">
+        <li style="width:33%; background-color:#0096DB"> <img style="padding-top:5px" src="images/ic_shop_black_24dp.png" width="48" height="48" alt="" /><a style="padding-top:0px; padding-bottom:5px" href="#"><strong>GET APPS</strong></a>
+          <ul style="background-color:#0096DB">
+            <li> <br />
+              <div ng-controller="appCtrl as ctrl" layout="column" ng-cloak>
+                <md-content style="padding:0px" layout-padding layout="column">
+                  <md-autocomplete style="padding:0px" ng-disabled="ctrl.isDisabled"
+                                                         md-no-cache="ctrl.noCache"
+                                                         md-selected-item="ctrl.selectedItem"
+                                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                         md-search-text="ctrl.searchText"
+                                                         md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                         md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                         md-item-text="item"
+                                                         md-min-length="0"
+                                                         placeholder="Enter to search Applications"
+                                                         md-menu-class="autocomplete-custom-template">
+                    <md-item-template> <span class="item-title"> <span> {{item}} </span> </span> </md-item-template>
+                  </md-autocomplete>
+                </md-content>
+              </div>
+              <br />
+              <div ng-controller="apptableCtrl">
+                <div class="row">
+                  <div class="col-xs-3 col-xs-offset-3">
+                    <button type="button" class="btn btn-info btn-block" ng-click="browseByName()">BROWSE APPS</button>
+                  </div>
+                  <div class="col-xs-3">
+                    <button type="button" class="btn btn-info btn-block">TRAINING</button>
+                  </div>
+                </div>
+                <br />
+                <div class="row" id="table-container">
+                  <div class="col-xs-12" style="text-align:left"><strong>{{appTableTitle}}</strong></span></div>
+                </div>
+                <table st-table="rowCollection" class="table table-striped" style="width:100%" ng-show="tableshow">
+                  <!--<thead>
+                    <tr>
+                      <th width="5%" style="text-align:left"></th>
+                      <th width="40%" style="text-align:left"></th>
+                      <th style="text-align:left"></th>
+                    </tr>
+                  </thead>-->
+                  <tbody>
+                    <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                      <td style="text-align:left"><img ng-src="{{row.imageurl}}" style="width:24px;height:24px" /></td>
+                      <td style="text-align:left">{{row.AppName}}</td>
+                      <td style="text-align:left">{{row.AppDescription}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </li>
+          </ul>
+        </li>
+        <li style="width:33%; background-color:#db8c25"> <img style="padding-top:5px" src="images/ic_view_quilt_black_24dp.png" width="48" height="48" alt="" /><a style="padding-bottom:5px; padding-top:0px" href="#"><strong>FIND PROJECT</strong></a>
+          <ul style="background-color:#db8c25">
+            <li> <br />
+              <div ng-controller="prjCtrl as ctrl" layout="column" ng-cloak>
+                <md-content style="padding:0px" layout-padding layout="column">
+                  <md-autocomplete style="padding:0px" ng-disabled="ctrl.isDisabled"
+                                                         md-no-cache="ctrl.noCache"
+                                                         md-selected-item="ctrl.selectedItem"
+                                                         md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                         md-search-text="ctrl.searchText"
+                                                         md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                         md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                         md-item-text="item"
+                                                         md-min-length="0"
+                                                         placeholder="Enter to search Projects"
+                                                         md-menu-class="autocomplete-custom-template">
+                    <md-item-template> <span md-hightlight-text="ctrl.searchText" md-highlight-flags="g"> {{item}} </span> </md-item-template>
+                  </md-autocomplete>
+                </md-content>
+              </div>
+              <br />
+              <div ng-controller="prjtableCtrl">
+                <div class="row">
+                  <div class="col-xs-4 col-xs-offset-4">
+                    <button type="button" class="btn btn-info btn-block" ng-click="browseProjects()">BROWSE</button>
+                  </div>
+                </div>
+                  <br />
+                <div class="row">
+                  <div class="col-xs-12" style="text-align:left"><strong>{{prjTableTitle}}</strong></span></div>
+                </div>
+                <table st-table="rowCollection" class="table table-striped" style="width:100%" ng-show="tableshow">
+                  <thead>
+                    <tr>
+                      <th style="text-align:left">Site</th>
+                      <th style="text-align:left">Project Name</th>
+                      <th style="text-align:left">Sub Project</th>
+                      <th style="text-align:left">Discipline</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                      <td style="text-align:left">{{row.site}}</td>
+                      <td style="text-align:left">{{row.project}}</td>
+                      <td style="text-align:left">{{row.subproj}}</td>
+                      <td style="text-align:left">{{row.disc}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div ng-controller="recentprjtableCtrl" ng-show="tableshow">
+                  <div class="row" id="table-container">
+                    <div class="col-xs-12" style="text-align:left"><strong>Recently Accessed Projects</strong></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <table st-table="rowCollection" class="table table-striped" style="width:100%">
+                        <!--<thead>
+                          <tr>
+                            <th width="5%" style="text-align:center"></th>
+                            <th width="30%" style="text-align:left">Project Name</th>
+                            <th style="text-align:left">Description</th>
+                          </tr>
+                        </thead>-->
+                        <tbody>
+                          <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                            <td style="text-align:left"><img ng-src="{{row.imageurl}}" style="width:24px;height:24px" /></td>
+                            <td style="text-align:left">{{row.ProjName}}</td>
+                            <td style="text-align:left">{{row.ProjDescription}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li style="width:33%; background-color:#21d081"> <img style="padding-top:5px" src="images/ic_my_library_add_black_24dp.png" width="48" height="48" alt="" /><a style="padding-bottom:5px; padding-top:0px" href="#"><strong>CREATE</strong></a>
+          <ul style="background-color:#21d081">
+            <li> <br />
+              <div class="row">
+                <div class="col-xs-6" align="center">
+                  <div class="btn-solution1">
+                    <p style="position: relative; font-weight: bold; font-size: 25px; color: #000000; bottom: 0; text-align: center;">GEO</p>
+                  </div>
+                </div>
+                <div class="col-xs-6" align="center">
+                  <div class="btn-solution2">
+                    <p style="position: relative; font-weight: bold; font-size: 25px; color: #000000; bottom: 0; text-align: center; ">TRANSPORTATION</p>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row ">
+                <div class="col-xs-6" align="center">
+                  <div class="btn-solution3">
+                    <p style="position: relative; font-weight: bold; font-size: 25px; color: #000000; bottom: 0; text-align: center; ">COLLABORATION</p>
+                  </div>
+                </div>
+                <div class="col-xs-6" align="center">
+                  <div class="btn-solution4">
+                    <p style="position: relative; font-weight: bold; font-size: 25px; color: #000000; bottom: 0; text-align: center; ">ANALYSIS</p>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <br/>
+  <div ng-controller="recentprjtableCtrl1" ng-show="tableshow">
+    <div class="row" id="table-container">
+      <div class="col-xs-12" style="text-align:left;"> <strong>&nbsp;&nbsp;Recently Accessed Projects</strong></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <table st-table="rowCollection" class="table table-striped" style="width:100%">
+          <!--
+          <thead>
+            <tr>
+              <th width="5%" style="text-align:center"></th>
+              <th width="30%" style="text-align:left"></th>
+              <th style="text-align:left"></th>
+            </tr>
+          </thead>
+          -->
+          <tbody>
+            <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+              <td width="5%" style="text-align:left"><img ng-src="{{row.imageurl}}" style="width:24px;height:24px" /></td>
+              <td width="30%" style="text-align:left">{{row.ProjName}}</td>
+              <td style="text-align:left">{{row.ProjDescription}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div ng-controller="prjAppTableCtrl" ng-show="prjappshow">
+    <div class="row">
+      <div class="col-xs-12" style="text-align:left;padding-left:8px">&nbsp;<span class="nh2"> <strong>{{prjTableProject}}</strong></span></div>
+    </div>
+      <br />
+    <div class="row">
+      <div class="col-xs-6" style="text-align:left; padding-right:8px; "><strong>&nbsp;&nbsp;APPLICATIONS</strong></div>      
+      <div class="col-xs-6" style="text-align: right; padding-right: 15px; "><strong>WBS: </strong>
+        <select>
+          <option value="1">WBS12894</option>
+          <option value="1">WBS19872</option>
+          <option value="1">WBS20198</option>
+        </select>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+
+    </div>
+    <table st-table="rowCollection" class="table table-striped" style="width:100%">
+    <!--
+      <thead>
+        <tr>
+          <th width="5%" style="text-align:center"></th>
+          <th width="40%" style="text-align:left">Application Name</th>
+          <th style="text-align:left">Description</th>
+        </tr>
+      </thead>
+      -->
+      <tbody>
+        <tr>
+          <td width="5%" style="text-align:left"><a href="images/DAPP3.hta" target="_blank"><img src="images/21.png" style="width:24px;height:24px" /></a></td>
+          <td width="40%" style="text-align:left"><a href="images/DAPP3.hta" target="_blank">ProjectWise V8i_SS4 with Bentley CulvertMaster</a></td>
+          <td style="text-align:left"><a href="images/DAPP3.hta" target="_blank">ProjectWise V8i_SS4 with Bentley CulvertMaster</a></td>
+        </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="images/DAPP4.hta" target="_blank"><img src="images/23.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="images/DAPP4.hta" target="_blank">MicroStation V8I_SS3 with CTDOT-Highway</a></td>
+              <td style="text-align:left"><a href="images/DAPP4.hta" target="_blank">MicroStation V8I_SS3 with CTDOT-Highway</a></td>
+          </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="images/DAPP5.hta" target="_blank"><img src="images/25.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="images/DAPP5.hta" target="_blank">Bentley CivilStorm V8i_SS3 08.11.03.84(12-9-2013)</a></td>
+              <td style="text-align:left"><a href="images/DAPP5.hta" target="_blank">Bentley CivilStorm V8i_SS3 08.11.03.84(12-9-2013)</a></td>
+          </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="#" ><img src="images/15.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="#" >CSiBridge 15.1.1</a></td>
+              <td style="text-align:left"><a href="#" >CSiBridge 15.1.1</a></td>
+          </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="#" ><img src="images/17.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="#">RISA-3D 13.0.0</a></td>
+              <td style="text-align:left"><a href="#" >RISA-3D 13.0.0</a></td>
+          </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="#" ><img src="images/11.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="#">STAAD.Pro V8i_SS5 20.07.10.65</a></td>
+              <td style="text-align:left"><a href="#">STAAD.Pro V8i_SS5 20.07.10.65</a></td>
+          </tr>
+          <tr>
+              <td width="5%" style="text-align:left"><a href="images/DAPP6.hta"><img src="images/16.png" style="width:24px;height:24px" /></a></td>
+              <td width="40%" style="text-align:left"><a href="images/DAPP6.hta">ProjectWise V8i_SS4 with Bentley WaterGEMS SS4 for MicroStation</a></td>
+              <td style="text-align:left"><a href="images/DAPP6.hta">ProjectWise V8i_SS4 with Bentley WaterGEMS SS4 for MicroStation</a></td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<!-- Angular Material requires Angular.js Libraries --> 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script> 
+<script src="content/js/jquery/jquery.js"></script> 
+<script src="content/js/bootstrap.min.js"></script> 
+<script src="Content/megamenu/js/vendor/modernizr-2.8.3.min.js"></script> 
+<script src="content/megamenu/js/megamenu.js"></script> 
+<script src="Content/js/angular-sanitize.min.js"></script> 
+<script src="Content/js/smart-table.js"></script> 
+<!-- Angular Material Library --> 
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script> 
+<script src="Content/js/auto.js"></script>
+</body>
+</html>

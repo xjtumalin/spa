@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b29fb353650c4b2d82f724e718d44bef" Name="Diagram1">
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppAssignments1" Width="1.5" PointX="11.25" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppAssignments3" Width="1.5" PointX="11.25" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppConfigAction" Width="1.5" PointX="11.25" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppGroupConfigAction" Width="1.5" PointX="3" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppGroupInfoValue" Width="1.5" PointX="3" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppGroupSiteConfigAction" Width="1.5" PointX="6" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppInfoValue" Width="1.5" PointX="11.25" PointY="41.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ApplicationGroup" Width="1.5" PointX="0.75" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Application" Width="1.5" PointX="9" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppSetAssignment" Width="1.5" PointX="14.25" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppSetGUID" Width="1.5" PointX="12" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppSiteConfigAction" Width="1.5" PointX="14.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.AppUsageExceptionRule" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.BillingPeriod" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Discipline" Width="1.5" PointX="19.5" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Function" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GBUConfigAction" Width="1.5" PointX="21.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GBUInfoValue" Width="1.5" PointX="21.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GBU" Width="1.5" PointX="19.5" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GBUSysParameter" Width="1.5" PointX="21.75" PointY="38.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GroupAssignments1" Width="1.5" PointX="6" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.GroupAssignments3" Width="1.5" PointX="6" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.JobWbsAssignments1" Width="1.5" PointX="24" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.JobWbsAssignments2" Width="1.5" PointX="16.5" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ProjConfigAction" Width="1.5" PointX="24" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ProjectInfoValue" Width="1.5" PointX="24" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Project" Width="1.5" PointX="21.75" PointY="33" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ProjSiteAssignment" Width="1.5" PointX="27" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ProjSysParameter" Width="1.5" PointX="24" PointY="43.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ReplicationSource" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Role" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.RolesInFunction" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.RunOnceInfo" Width="1.5" PointX="7.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SiteConfigAction" Width="1.5" PointX="16.5" PointY="40.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SiteInfoValue" Width="1.5" PointX="16.5" PointY="44.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SiteMap" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Site" Width="1.5" PointX="14.25" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SoftwarePublisher" Width="1.5" PointX="6.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Subproject" Width="1.5" PointX="17.25" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SystemConfigAction" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SystemInfoValue" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.SystemParameter" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.UserHistoryNet" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.User" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.ValidationError" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ParStreamStagingDBModel.Entity" Width="1.5" PointX="9.75" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments1_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments1_Disciplines" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments1_Subprojects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments2_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments2_Disciplines" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppAssignments2_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppConfigActions_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppGroupConfigActions_ApplicationGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppGroupInfoValues_AppGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppGroupSiteConfigActions_ApplicationGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppGroupSiteConfigActions_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppInfoValues_Apps" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments1_ApplicationGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments3_ApplicationGroups" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_Applications_SoftwarePublisher" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppSetAssignments_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppSiteConfigActions_Applications" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppSetAssignments_AppSetGUIDs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_AppSiteConfigActions_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments1_Disciplines" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments3_Disciplines" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_RolesInFunctions_Functions" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GBUConfigActions_GBUs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GBUInfoValues_GBUs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GBUSysParameters_GBUs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_Projects_GBUs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_Sites_GBUs" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments1_Subprojects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_GroupAssignments3_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_JobWbsAssignments_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_JobWbsAssignments2_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_ProjConfigActions_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_ProjectInfoValues_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_ProjSiteAssignments_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_ProjSysParameters_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_ProjSiteAssignments_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_RolesInFunctions_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_SiteConfigActions_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.FK_SiteInfoValues_Sites" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.AppAssignments2" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.AppAssignments4" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.AppAssignments5" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.AppGroupAssignments" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.DiscAssignments1" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.DiscAssignments2" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.GroupAssignments2" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.GroupAssignments4" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.GroupAssignments5" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.SubprojectAssignments" ManuallyRouted="false" />
+        <AssociationConnector Association="ParStreamStagingDBModel.UsersInRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <link href="content/megamenu/css/style.css" rel="stylesheet">
+    <link href="content/css/my.css" rel="stylesheet">
+
+</head>
+
+<body ng-app="app" ng-cloak>
+    <header role="banner">
+        <img id="logo-main" src="images/dapp_header_2120px.png">
+    </header>
+
+        <div class="container" style="padding: 1px 0px 10px; width:1000px">
+            <div class="row" >
+                <div class="col-md-6">Current Location/Site: <strong>Aiken, South Carolina, USA</strong> (change)</div>
+                <div class="col-md-6" style="text-align:right"> User Logged In: <strong>Smith, John Doe EID# 4324957</strong> (logout)</div>
+            </div>
+            <br />
+
+
+            <div class="menu-container">
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a href="#">BROWSE APPS</a>
+                            <ul>
+                                <li>
+                                    <br />
+                                    <div ng-controller="appCtrl as ctrl" layout="column" ng-cloak>
+                                        <md-content layout-padding layout="column">
+                                            <md-autocomplete ng-disabled="ctrl.isDisabled"
+                                                             md-no-cache="ctrl.noCache"
+                                                             md-selected-item="ctrl.selectedItem"
+                                                             md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                             md-search-text="ctrl.searchText"
+                                                             md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                             md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                             md-item-text="item"
+                                                             md-min-length="0"
+                                                             placeholder="Pick an Angular repository"
+                                                             md-menu-class="autocomplete-custom-template">
+                                                <md-item-template>
+                                                    <span class="item-title">
+                                                        <span> {{item}} </span>
+                                                    </span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </md-content>
+                                    </div>
+
+
+
+
+                                    <br />
+                                    <div ng-controller="apptableCtrl">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-md-offset-3"><button type="button" class="btn btn-info btn-block" ng-click="browseByName()">BROWSE BY NAME</button></div>
+                                            <div class="col-md-3"><button type="button" class="btn btn-info btn-block">TRAINING</button></div>
+
+                                        </div>
+                                        <br />
+                                        <div class="row" id="table-container">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6"><h2>{{appTableTitle}}</h2></div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <br />
+
+
+                                        <table st-table="rowCollection" class="table table-striped" style="width:75%" ng-show="tableshow">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center">App Icon</th>
+                                                    <th style="text-align:center">App Name</th>
+                                                    <th style="text-align:center">App Abrr</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                                                    <td>
+                                                        <img src="{{row.imageurl}}" style="width:24px;height:24px" />
+                                                    </td>
+                                                    <td style="text-align:left">{{row.AppName}}</td>
+                                                    <td style="text-align:left">{{row.AppAbbr}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">BROWSE PROJECTS</a>
+                            <ul>
+                                <li>
+                                    <br />
+                                    <div ng-controller="prjCtrl as ctrl" layout="column" ng-cloak>
+                                        <md-content layout-padding layout="column">
+                                            <md-autocomplete ng-disabled="ctrl.isDisabled"
+                                                             md-no-cache="ctrl.noCache"
+                                                             md-selected-item="ctrl.selectedItem"
+                                                             md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                                                             md-search-text="ctrl.searchText"
+                                                             md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                             md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                                             md-item-text="item"
+                                                             md-min-length="0"
+                                                             placeholder="Enter to search Projects"
+                                                             md-menu-class="autocomplete-custom-template">
+                                                <md-item-template>
+                                                    <span md-hightlight-text="ctrl.searchText" md-highlight-flags="g"> {{item}} </span>
+                                                </md-item-template>
+                                            </md-autocomplete>
+                                        </md-content>
+                                    </div>
+                                    <br />
+
+                                    <div ng-controller="prjtableCtrl">
+                                        <div class="row">
+                                            <div class="col-md-3 col-md-offset-4"><button type="button" class="btn btn-info btn-block" ng-click="browseBySite()">BROWSE BY SITE</button></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6"><h2>{{prjTableTitle}}</h2></div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <br />
+                                        <table st-table="rowCollection" class="table table-striped" style="width:85%" ng-show="tableshow">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center">Project Icon</th>
+                                                    <th style="text-align:center">Project Name</th>
+                                                    <th style="text-align:center">Project Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                                                    <td>
+                                                        <img src="{{row.imageurl}}" style="width:24px;height:24px" />
+                                                    </td>
+                                                    <td style="text-align:left">{{row.ProjName}}</td>
+                                                    <td style="text-align:left">{{row.ProjDescription}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#">BROWSE SOLUTIONS</a>
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-2"><div class="btn-solution"><img src="images/Geo.png" class="btn-solution-img" /><div class="btn-solution-text"><p>GEO</p></div></div></div>
+                                        <div class="col-md-3"><div class="btn-solution"><img src="images/Transportation.png" class="btn-solution-img" /><div class="btn-solution-text"><p>TRANSPORTATION</p></div></div></div>
+                                    </div>
+                                    <br />
+                                    <div class="row ">
+                                        <div class="col-md-5 col-md-offset-2"><div class="btn-solution"><img src="images/collaboration.png" class="btn-solution-img" /><div class="btn-solution-text"><p>COLLABORATION</p></div></div></div>
+                                        <div class="col-md-3"><div class="btn-solution"><img src="images/analysis.png" class="btn-solution-img" /><div class="btn-solution-text"><p>ANALYSIS</p></div></div></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+            <div ng-controller="recentprjtableCtrl">
+                <div class="row" id="table-container">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8"><h2>Recent Projects/Solutions</h2></div>
+                    <div class="col-md-2"></div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <table st-table="rowCollection" class="table table-striped" style="width:75%" ng-show="tableshow">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Project Icon</th>
+                                    <th style="text-align:center">Project Name</th>
+                                    <th style="text-align:center">Project Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                                    <td>
+                                        <img src="{{row.imageurl}}" style="width:24px;height:24px" />
+                                    </td>
+                                    <td style="text-align:left">{{row.ProjName}}</td>
+                                    <td style="text-align:left">{{row.ProjDescription}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div ng-controller="prjAppTableCtrl" ng-show="prjappshow">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"><h2>{{prjTableTitle}}</h2></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <table st-table="rowCollection" class="table table-striped" style="width:85%">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">App Icon</th>
+                            <th style="text-align:center">App Name</th>
+                            <th style="text-align:center">App Abrr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in rowCollection track by $index" ng-click="showMessage(row,$event)">
+                            <td>
+                                <img src="{{row.imageurl}}" style="width:24px;height:24px" />
+                            </td>
+                            <td style="text-align:left">{{row.AppName}}</td>
+                            <td style="text-align:left">{{row.AppAbbr}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+
+
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="content/js/jquery/jquery.js"></script>
+        <script src="content/js/bootstrap.min.js"></script>
+        <script src="Content/megamenu/js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="content/megamenu/js/megamenu.js"></script>
+        <script src="Content/js/angular-sanitize.min.js"></script>
+        <script src="Content/js/smart-table.js"></script>
+        <!-- Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+        <script src="Content/js/auto.js"></script>
+
+</body>
+</html>

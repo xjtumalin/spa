@@ -1,0 +1,104 @@
+﻿.btn-sq {
+  width: 150px !important;
+  height: 150px !important;
+  font-size: 15px;
+  font-weight:bold;
+  float:right;
+  position:relative;
+  left:-50%;
+}
+.btn-sq-sm {
+  width: 100px !important;
+  height: 100px !important;
+  font-size: 15px;
+  font-weight:bold;
+  
+  float:right;
+  position:relative;
+  left:-50%;
+}
+
+
+.btn-solution1 {
+    width: 250px !important;
+    height: 250px !important;
+    background:url(../../images/GEO.png) no-repeat center center;
+    background-size:cover;
+    display: table-cell;
+    vertical-align: central;
+}
+
+.btn-solution2 {
+    width: 250px !important;
+    height: 250px !important;
+    background:url(../../images/Transportation.png) no-repeat center center;
+    background-size:cover;
+    display: table-cell;
+    vertical-align: central;
+}
+
+.btn-solution3 {
+    width: 250px !important;
+    height: 250px !important;
+    background:url(../../images/collaboration.png) no-repeat center center;
+    background-size:cover;
+    display: table-cell;
+    vertical-align: central;
+}
+
+.btn-solution4 {
+    width: 250px !important;
+    height: 250px !important;
+    background:url(../../images/analysis.png) no-repeat center center;
+    background-size:cover;
+    display: table-cell;
+    vertical-align: central;
+}
+
+.btn-solution-text {
+    position: absolute;
+    font-weight: bold;
+    font-size:15px;
+    color: #ffffff;
+    bottom: 0;
+    text-align: center !important;
+    left:10px;
+}
+
+.btn-solution-img {
+    width: inherit;
+    height: inherit;
+}
+
+#logo-main {
+  display: block;
+  margin: 0px auto;
+  width: 1000px;
+}
+@font-face{
+    font-family:Myfont;
+    src:url('../../images/D.ttf');
+}
+@font-face{
+    font-family:font1;
+    src:url('../../images/Effra Heavy.ttf');
+}
+@font-face{
+    font-family:font2;
+    src:url('../../images/Effra Regular.ttf');
+}
+.nh2{ 
+    font-family:sans-serif !important;
+    font-size:25px !important;
+    text-align:center;
+	padding-left:8px;
+}
+.nh3{
+    font-family:font1 !important;
+    font-size:x-large !important;
+}
+.nh4{
+    font-family:font2 !important;
+    font-size:x-large !important;
+}
+

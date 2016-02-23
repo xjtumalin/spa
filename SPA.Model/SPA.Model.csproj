@@ -1,0 +1,1030 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ABDF34EC-2202-4DE5-9022-F7EAF64DBDB5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPA.Model</RootNamespace>
+    <AssemblyName>SPA.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppAssignments1.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppAssignments3.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppGroupConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppGroupInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppGroupSiteConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationGroup.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppSetAssignment.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppSetGUID.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppSiteConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppUsageExceptionRule.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillingPeriod.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App.cs" />
+    <Compile Include="Discipline.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GBU.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GBUConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GBUInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GBUSysParameter.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupAssignments1.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupAssignments3.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobWbsAssignments1.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobWbsAssignments2.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParsonDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParsonDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParsonDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParsonDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParsonDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ProjConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PROJLIST_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjSiteAssignment.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjSysParameter.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplicationSource.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RolesInFunction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RunOnceInfo.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Site.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SiteMap.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SoftwarePublisher.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssign1_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssign2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssign3_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssign4_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssignments1_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssignments2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssignments3_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppAssignments4_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGroupConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGroupInfo2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGroupInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGroupInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGroupSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGUIDActDeactList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppGUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppInfo2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppInfoMenu_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppInvocation_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spApplications_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppsetAssignments_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAppSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spCopyProjConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spDiscAssignments1_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spDiscAssignments2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spDisciplines2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spDisciplines_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spFindUsersInRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGBUConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGBUInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGBUSysParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGBUs_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppAavSiteByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppAppgroupAssignmentsForAppgroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppAppgroupAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppConfigActionsByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupAssignments_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupConfigActionsByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupInfoValuesByAppGroupIDandInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupInfoValuesByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupSiteAssignmentsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupSiteConfigActionsBySiteAndAppgroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppGroupSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppInfoValuesByAppIDandInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppInfoValuesByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroupsByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroupsByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroupsByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroupsBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroupsBySubpID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationGroups_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationsByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationsByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationsBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplicationsBySubpID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetApplications_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppProjAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppProjAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppProjDisAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSetAssignmentsByAppForOrdering_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSetAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppsetByAppsetID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppset_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSiteAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSiteAssignmentsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSiteConfigActionsBySiteAndApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSubprojAssignmentsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppSubprojAssignmentsForSubproj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAppUsageExceptionRules_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAuditList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppgroupForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppGroupsForProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppGroupsForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppGroupsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppGroupsForSubProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppGroupsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppSetForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForAppgroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForSubProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableAppsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableDisciplinesForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableDisciplinesForSubProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableFunctionsForRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjDisForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjectsForAppGroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjectsForDiscipline_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjectsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjectsForSubProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableProjsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableRolesForFunction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableRolesForUser_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableSitesForAppGroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableSitesForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableSitesForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableSubProjectsForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableSubprojsForApp_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAvailableUsersForRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDisciplinesByDiscID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDisciplines_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDiscList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetFunctionByFunctionID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetFunctionsByRoleID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetFunction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUConfigActionsByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUConfigDetailByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUConfigGroupingByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUInfoValuesByGBUIDandInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUInfoValuesByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSByGBUInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSByParameterName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSysParametersByGBUIDandParameterName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSysParametersByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUSysParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGBUS_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetGeographicSitesList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetJobWbsByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetJobWbsBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetOrganizationalSitesList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjAppGroupAssignmentsForAppGroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjAppGroupAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjConfigActionsByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjDiscAppAssignmentsForProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjDiscAppGroupAssignmentsForProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjDiscAssignmentsForDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjDiscAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectInfoValuesByProjectIDandInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectInfoValuesByProjectID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectsByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectsByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectsByJobWBS_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjectsBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjects_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSiteAssignmentsForProjList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSiteAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSiteAssignmentsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSiteAssignmentWithProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSiteAssignmentWithSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSubProjAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSubProjAssignmentsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjsWithSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSysParametersByProjIDandParameterName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSysParametersByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetProjSysParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetReplicationSourceByKey_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetReplicationSources_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRoleByRoleID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRolesAndFunctions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRolesByFunctionID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRolesByUser_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRolesForUser_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRunOnceInfoByKey_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetRunOnceInfos_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteAppGroupAssignmentsForAppGroup_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteAppGroupAssignmentsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteConfigActionsBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteInfoValuesBySiteIDandInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteInfoValuesBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteMap_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteProjAssignmentsForProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSiteProjAssignmentsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesByGBUID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesByJobWBS_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesByProjID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesBySiteID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesGeographical_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesOrganizational_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesWithAppGroups_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSitesWithApps_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSites_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSoftwarePublisherByID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSoftwarePublishers_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSoftwarePublisher_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubPList_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjAppAssignmentsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjAppGroupAssignmentsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjDiscAppAssignmentsForSubProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjDiscAppGroupAssignmentsForSubProjDisc_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjDiscAssignmentsForSubProj_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubprojectsByAppGroupID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubprojectsByAppID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjectsForApplication_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProjectsForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSubProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemInfoValueByInfoName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemParameterConfigAction_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemParametersByParameterName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemParametersConfigActionsByParameterName_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetSystemParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetThisJobWbsForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetThisJobWbsForSite_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUserByUserID_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUserHistoryNetByKey_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUserPermision2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUserPermision_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUsersAndRoles_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUsersByRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUsersForRole_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetUser_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spJobInfo1_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spJobInfo2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spMasterReplicationUNC_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjectInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjectInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjects2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjects3_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjects_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjReplicationGetSitesForProject_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjReplicationGetSourceDiscInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjReplicationGetSourceIds_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjReplicationGetSourceProjInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjReplicationGetSourceSubpInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjSiteInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spProjSysParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spRunOnce_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSiteConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSiteInfoValues_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSitesForReplication_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSites_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSubprojects2_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSubprojectsInfo_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSubprojects_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSystemConfigActions_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSystemParameters_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spUserHistoryNet_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spViewUserHistoryNet_Result.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subproject.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemConfigAction.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemInfoValue.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemParameter.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserHistoryNet.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationError.cs">
+      <DependentUpon>ParsonDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <EntityDeploy Include="ParsonDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ParsonDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ParsonDB.edmx.diagram">
+      <DependentUpon>ParsonDB.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ParsonDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ParsonDB.edmx</DependentUpon>
+      <LastGenOutput>ParsonDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ParsonDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ParsonDB.edmx</DependentUpon>
+      <LastGenOutput>ParsonDB.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

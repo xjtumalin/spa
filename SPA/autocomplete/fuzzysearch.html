@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="/content/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-sanitize.js"></script>
+
+    <script src="massautocomplete.js"></script>
+    <!-- Optional -->
+    <link href="massautocomplete.theme.css" rel="stylesheet" type="text/css">
+</head>
+
+<body ng-app=app ng-controller="rootCtrl" ng-cloak>
+    <div >
+        <!--<div mass-autocomplete>
+            <input ng-model="dirty.value"
+                   mass-autocomplete-item="ac_fuse_options">
+        </div>-->
+        <div class="input-group" mass-autocomplete>
+            <input type="text" class="form-control" placeholder="Enter to search" ng-model="dirty.value"
+                   mass-autocomplete-item="autocomplete_options" />
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default" ng-click="showTable()" >
+                    <span class="glyphicon glyphicon-search" ></span>
+                </button>
+            </span>
+        </div>
+    </div>
+
+    <div >
+        <table st-table="rowCollection" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>App Id</th>
+                    <th>App Name</th>
+                    <th>App Abrr</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in rowCollection">
+                    <td>{{row.AppID}}</td>
+                    <td>{{row.AppName}}</td>
+                    <td>{{row.AppAbbr}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="fuse.js"></script>
+    <script src="fuzzysearch.js"></script>
+
+    <script src="/Content/js/smart-table.js"></script>
+</body>
+</html>
