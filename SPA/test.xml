@@ -4,6 +4,8 @@
     <SiteName>!Numecent Test Site 1 (Organizational)</SiteName>
     <SiteID>109</SiteID>
     <Projects>
+      <ProjName>SWPF CAD</ProjName>
+      <ProjID>117</ProjID>
       <Subprojects>
         <Disciplines />
       </Subprojects>

@@ -83,23 +83,76 @@
             var ulNode = $('<ul></ul>');
             $.ajax({
                 type: "GET",
-                url: "test.xml",
+                url: "ProjectTree.xml",
                 dataType: "xml",
                 success: function (xml) {
                     $(xml).find('Sites').each(function () {
                         var title = $(this).find('SiteName').text();
                         var cNode = $('<li><a href="#">' + title + '</a></li>');
                         ulNode.append(cNode);
+                        buildProjectTree(cNode, $(this), 'Projects ProjName');
 
+                        //if($(this).find('Projects ProjName').length>0)
+                        //{
+                        //    var pulNode = $('<ul></ul>');
+                        //    $(this).find('Projects ProjName').each(function () {
+                        //        var title = $(this).text();
+                        //        var cNode = $('<li><a href="#">' + title + '</a></li>');
+                        //        pulNode.append(cNode);
+                        //    });
+                        //    ulNode.append(pulNode);
+                        //}
                     });
                 }
             });
             $("#treeroot").append(ulNode);
         });
 
-        function buildTree()
+        function buildProjectTree(rootEle,data,path)
         {
+            if(data.find(path).length>0)
+            {
+                var ulNode = $('<ul></ul>');
+                data.find(path).each(function () {
+                    var title = $(this).text();
+                    var level = 'Project Level';
+                    var id = $(this).parent().find('ProjID').text();
+                    var cNode = $('<li><a href="#" onclick="alert(\'Project Id='+id+'\')">' + title + '</a></li>');
+                    ulNode.append(cNode);
 
+                    buildSubProjectTree(cNode, $(this).parent(), 'Subprojects SubpName');
+                });
+                rootEle.append(ulNode);
+            }
+        }
+
+        function buildSubProjectTree(rootEle, data, path) {
+            if (data.find(path).length > 0) {
+                var ulNode = $('<ul></ul>');
+                data.find(path).each(function () {
+                    var title = $(this).text();
+                    var level = 'Sub Project Level';
+                    var id = $(this).parent().find('SubpID').text();
+                    var cNode = $('<li><a href="#" onclick="alert(\'Sub Project Id=' + id + '\')">' + title + '</a></li>');
+                    ulNode.append(cNode);
+                    buildDiscTree(cNode,$(this).parent(), 'Disciplines DiscName');
+                });
+                rootEle.append(ulNode);
+            }
+        }
+
+        function buildDiscTree(rootEle, data, path) {
+            if (data.find(path).length > 0) {
+                var ulNode = $('<ul></ul>');
+                data.find(path).each(function () {
+                    var title = $(this).text();
+                    var level = 'Discipline Level';
+                    var id = $(this).parent().find('DiscID').text();
+                    var cNode = $('<li><a href="#" onclick="alert(\'Discipline Id=' + id + '\')">' + title + '</a></li>');
+                    ulNode.append(cNode);
+                });
+                rootEle.append(ulNode);
+            }
         }
     </script>
 </body>

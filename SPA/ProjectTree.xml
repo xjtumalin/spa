@@ -1,0 +1,2911 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <Sites>
+    <SiteName>!Numecent Test Site 1 (Organizational)</SiteName>
+    <SiteID>109</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>!Numecent Test Site 2 (Geographic)</SiteName>
+    <SiteID>110</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Autodesk Training</SiteName>
+    <SiteID>106</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Installations (ftp) (prior authorization required)</SiteName>
+    <SiteID>7</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Installations (PSJB) (prior authorization required)</SiteName>
+    <SiteID>6</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.MEA Temporary Use (BCDR)</SiteName>
+    <SiteID>13</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Technical Library</SiteName>
+    <SiteID>99</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Training Applications</SiteName>
+    <SiteID>101</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Aiken, SC</SiteName>
+    <SiteID>55</SiteID>
+    <Projects>
+      <ProjName>AIken PGS Standards</ProjName>
+      <ProjID>118</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>SWPF CAD</ProjName>
+      <ProjID>117</ProjID>
+      <Subprojects>
+        <SubpName>2D</SubpName>
+        <SubpID>11</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Backgrounds</DiscName>
+          <DiscID>14</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>2D Standards</SubpName>
+        <SubpID>10</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Backgrounds</DiscName>
+          <DiscID>14</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>3D</SubpName>
+        <SubpID>9</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Backgrounds</DiscName>
+          <DiscID>14</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>3D Standards</SubpName>
+        <SubpID>8</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Backgrounds</DiscName>
+          <DiscID>14</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>SWPF EDMS (Phase 1 and 2)</ProjName>
+      <ProjID>62</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>SWPF Other</ProjName>
+      <ProjID>122</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Win7-32 Solution for Aiken (prior authorization required)</ProjName>
+      <ProjID>126</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Annapolis, MD</SiteName>
+    <SiteID>49</SiteID>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>104</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PIT Projects</ProjName>
+      <ProjID>64</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Austin, TX 6th Street</SiteName>
+    <SiteID>45</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>53</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Austin, TX Centre Park</SiteName>
+    <SiteID>60</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>90</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>91</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS ProjectWise</ProjName>
+      <ProjID>51</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>178</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Azusa, CA</SiteName>
+    <SiteID>10</SiteID>
+    <Projects>
+      <ProjName>Gold Line (Non-Gateway)</ProjName>
+      <ProjID>21</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Revit-PW SS4 Testing</ProjName>
+      <ProjID>108</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Bakersfield, CA</SiteName>
+    <SiteID>24</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>27</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Baltimore, MD</SiteName>
+    <SiteID>27</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>30</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Boston, MA</SiteName>
+    <SiteID>3</SiteID>
+    <Projects>
+      <ProjName>Boston PTG Standards</ProjName>
+      <ProjID>93</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>12</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>15</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Breckenridge, MI</SiteName>
+    <SiteID>71</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Buffalo, NY</SiteName>
+    <SiteID>29</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>102</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>32</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Calgary, Alberta</SiteName>
+    <SiteID>78</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>137</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Carrollton, TX </SiteName>
+    <SiteID>87</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Carson City, NV</SiteName>
+    <SiteID>84</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Centreville, VA</SiteName>
+    <SiteID>100</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>84</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Charlotte, NC</SiteName>
+    <SiteID>5</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>14</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>113</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Revit-PW SS4 Testing</ProjName>
+      <ProjID>108</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Chesterfield, MO</SiteName>
+    <SiteID>31</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>82</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>34</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>97</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Chicago, IL</SiteName>
+    <SiteID>37</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Hanson ProjectWise (Hanson datasource)</ProjName>
+      <ProjID>73</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>O'Hare ProjectWise</ProjName>
+      <ProjID>197</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>198</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>60</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>38</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Rendering</ProjName>
+      <ProjID>182</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Cincinnati, OH</SiteName>
+    <SiteID>38</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>39</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Cleveland, OH</SiteName>
+    <SiteID>76</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Columbus, OH</SiteName>
+    <SiteID>104</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>185</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Denver, CO</SiteName>
+    <SiteID>16</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>66</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>25</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Edmonton, Alberta</SiteName>
+    <SiteID>85</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>El Segundo, CA</SiteName>
+    <SiteID>67</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>100</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Fresno, CA (1401 Fulton St. Suite 400) </SiteName>
+    <SiteID>94</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>164</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Herndon (2303 Dulles Station Blvd.), VA</SiteName>
+    <SiteID>90</SiteID>
+    <Projects>
+      <ProjName>Dulles Metrorail</ProjName>
+      <ProjID>152</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Honolulu, HI</SiteName>
+    <SiteID>69</SiteID>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>179</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>112</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>115</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Houston, TX McKinney</SiteName>
+    <SiteID>74</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>187</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Houston, TX W Loop</SiteName>
+    <SiteID>23</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>26</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>74</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Huntsville, AL</SiteName>
+    <SiteID>61</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>94</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Indianapolis, IN</SiteName>
+    <SiteID>43</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>49</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Irvine, CA</SiteName>
+    <SiteID>20</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Caltrans Projects</ProjName>
+      <ProjID>120</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>POLB Projectwise</ProjName>
+      <ProjID>189</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>36</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Irving, TX</SiteName>
+    <SiteID>9</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>18</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Irving, TX (Kiewit Office)</SiteName>
+    <SiteID>103</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>186</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Jacksonville, FL</SiteName>
+    <SiteID>11</SiteID>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>77</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Langley, British Columbia</SiteName>
+    <SiteID>81</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>141</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Las Vegas, NV</SiteName>
+    <SiteID>18</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>22</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Louisville, KY</SiteName>
+    <SiteID>88</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Marietta, GA</SiteName>
+    <SiteID>96</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>168</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Memphis, TN</SiteName>
+    <SiteID>58</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>85</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Miami, FL</SiteName>
+    <SiteID>70</SiteID>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>173</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>116</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Minneapolis, MN</SiteName>
+    <SiteID>47</SiteID>
+    <Projects>
+      <ProjName>Cayuga-BR62925 ProjectWise (M. Baker datasource)</ProjName>
+      <ProjID>72</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>55</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Mississauga, Ontario</SiteName>
+    <SiteID>79</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>138</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Montreal, Quebec</SiteName>
+    <SiteID>108</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>195</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>New York City, NY</SiteName>
+    <SiteID>17</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>AECOM ProjectWise</ProjName>
+      <ProjID>196</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Pattullo Bridge </ProjName>
+      <ProjID>190</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>23</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Newark, NJ</SiteName>
+    <SiteID>97</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>171</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Newington, VA</SiteName>
+    <SiteID>93</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Norcross, GA</SiteName>
+    <SiteID>39</SiteID>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>177</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>41</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>40</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Norfolk, VA</SiteName>
+    <SiteID>65</SiteID>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>98</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Oakland, CA BART</SiteName>
+    <SiteID>41</SiteID>
+    <Projects>
+      <ProjName>BART OAC</ProjName>
+      <ProjID>44</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Oakland, CA Grand</SiteName>
+    <SiteID>82</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>143</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>142</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Ontario</SiteName>
+    <SiteID>42</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>45</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Orlando, FL</SiteName>
+    <SiteID>28</SiteID>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>31</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Pasadena, CA</SiteName>
+    <SiteID>1</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Bluegrass Other</ProjName>
+      <ProjID>63</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Engineering Systems Support</ProjName>
+      <ProjID>7</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Fresno TTDF</ProjName>
+      <ProjID>47</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>HNTB ProjectWise</ProjName>
+      <ProjID>121</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Home Station MOUT</ProjName>
+      <ProjID>8</ProjID>
+      <Subprojects>
+        <SubpName>CAD</SubpName>
+        <SubpID>1</SubpID>
+        <Disciplines />
+      </Subprojects>
+      <Subprojects>
+        <SubpName>Engineering</SubpName>
+        <SubpID>2</SubpID>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Lockheed-B637 HVAC Modifications</ProjName>
+      <ProjID>176</ProjID>
+      <Subprojects>
+        <SubpName>CAD</SubpName>
+        <SubpID>18</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>39</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>40</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>41</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>44</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>47</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Lockheed-B637 Paint Operations</ProjName>
+      <ProjID>107</ProjID>
+      <Subprojects>
+        <SubpName>CAD</SubpName>
+        <SubpID>7</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>39</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>40</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>41</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>44</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>47</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>NAVFAC SW</ProjName>
+      <ProjID>95</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>141</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects (PARCOMM)</ProjName>
+      <ProjID>56</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS ProjectWise</ProjName>
+      <ProjID>51</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>58</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Revit-PW SS4 Testing</ProjName>
+      <ProjID>108</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>SBM-1003 GEVS</ProjName>
+      <ProjID>20</ProjID>
+      <Subprojects>
+        <SubpName>CAD</SubpName>
+        <SubpID>5</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>39</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>40</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>41</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>General</DiscName>
+          <DiscID>42</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>43</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>44</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>45</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping &amp; Instrumentation</DiscName>
+          <DiscID>52</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>47</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>SBM-1005 Detail Design</ProjName>
+      <ProjID>11</ProjID>
+      <Subprojects>
+        <SubpName>CAD</SubpName>
+        <SubpID>4</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>39</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>40</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>41</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>General</DiscName>
+          <DiscID>42</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>43</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>44</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>45</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping &amp; Instrumentation</DiscName>
+          <DiscID>52</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>47</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Pasco, WA</SiteName>
+    <SiteID>59</SiteID>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>87</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Philadelphia, PA</SiteName>
+    <SiteID>14</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>99</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>86</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>South Ferry Station Rehabilitation</ProjName>
+      <ProjID>153</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Pittsburg, PA</SiteName>
+    <SiteID>63</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Raleigh, NC</SiteName>
+    <SiteID>62</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>96</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Rancho Cucamonga, CA</SiteName>
+    <SiteID>83</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>144</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Redwood City, CA</SiteName>
+    <SiteID>102</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>184</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Richardson, TX</SiteName>
+    <SiteID>19</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>CPYI ProjectWise</ProjName>
+      <ProjID>191</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>HDR ProjectWise</ProjName>
+      <ProjID>89</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>24</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Richmond, Ky</SiteName>
+    <SiteID>86</SiteID>
+    <Projects>
+      <ProjName>Bluegrass CAD</ProjName>
+      <ProjID>158</ProjID>
+      <Subprojects>
+        <SubpName>2D</SubpName>
+        <SubpID>17</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Process</DiscName>
+          <DiscID>16</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>2D CAD Standards</SubpName>
+        <SubpID>15</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Process</DiscName>
+          <DiscID>16</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>3D</SubpName>
+        <SubpID>16</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Process</DiscName>
+          <DiscID>16</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>11</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+      <Subprojects>
+        <SubpName>3D CAD Standards</SubpName>
+        <SubpID>14</SubpID>
+        <Disciplines>
+          <DiscName>Architectural</DiscName>
+          <DiscID>1</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>CAD General</DiscName>
+          <DiscID>4</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Civil</DiscName>
+          <DiscID>2</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Electrical</DiscName>
+          <DiscID>3</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Instrumentation</DiscName>
+          <DiscID>5</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Material Handling</DiscName>
+          <DiscID>6</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Process</DiscName>
+          <DiscID>7</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Mechanical Utilities</DiscName>
+          <DiscID>8</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Piping</DiscName>
+          <DiscID>9</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Process</DiscName>
+          <DiscID>16</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Structural</DiscName>
+          <DiscID>10</DiscID>
+        </Disciplines>
+        <Disciplines>
+          <DiscName>Vessels</DiscName>
+          <DiscID>12</DiscID>
+        </Disciplines>
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Bluegrass EDMS</ProjName>
+      <ProjID>162</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Richmond, VA</SiteName>
+    <SiteID>95</SiteID>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>167</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Sacramento, CA</SiteName>
+    <SiteID>68</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>103</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>San Antonio, TX</SiteName>
+    <SiteID>46</SiteID>
+    <Projects>
+      <ProjName>Government Projects</ProjName>
+      <ProjID>54</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>San Diego, CA</SiteName>
+    <SiteID>44</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>101</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>50</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>San Francisco, CA</SiteName>
+    <SiteID>21</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>43</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>San Jose, CA</SiteName>
+    <SiteID>25</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>28</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Santa Monica, CA</SiteName>
+    <SiteID>77</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Sao Paulo, Brazil</SiteName>
+    <SiteID>107</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>194</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Seattle, WA</SiteName>
+    <SiteID>40</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Pattullo Bridge </ProjName>
+      <ProjID>190</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>42</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>WSDOT ProjectWise</ProjName>
+      <ProjID>129</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Somerset, NJ</SiteName>
+    <SiteID>48</SiteID>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>183</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>South Jordan, UT</SiteName>
+    <SiteID>32</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Engineering Systems Support</ProjName>
+      <ProjID>7</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS ProjectWise</ProjName>
+      <ProjID>51</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PIT Projects</ProjName>
+      <ProjID>35</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>59</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>UDOT ProjectWise</ProjName>
+      <ProjID>75</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Southfield, MI</SiteName>
+    <SiteID>51</SiteID>
+    <Projects>
+      <ProjName>HNTB ProjectWise</ProjName>
+      <ProjID>121</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>67</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Sumner, WA</SiteName>
+    <SiteID>75</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Syracuse, NY</SiteName>
+    <SiteID>4</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>13</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Tampa, FL</SiteName>
+    <SiteID>8</SiteID>
+    <Projects>
+      <ProjName>FDOT Workspace</ProjName>
+      <ProjID>33</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>17</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PIT Projects</ProjName>
+      <ProjID>48</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>61</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Tempe, AZ</SiteName>
+    <SiteID>33</SiteID>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>37</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Toronto, Canada</SiteName>
+    <SiteID>73</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Vienna, VA</SiteName>
+    <SiteID>57</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>84</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>125</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>VPN Special Projects </SiteName>
+    <SiteID>12</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Cayuga-BR62925 ProjectWise (M. Baker datasource)</ProjName>
+      <ProjID>72</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>HDR ProjectWise</ProjName>
+      <ProjID>89</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>172</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>57</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>83</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS ProjectWise</ProjName>
+      <ProjID>51</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>92</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Walnut Creek, CA</SiteName>
+    <SiteID>50</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>65</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>114</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Washington, D.C.</SiteName>
+    <SiteID>26</SiteID>
+    <Projects>
+      <ProjName> Gold Line  </ProjName>
+      <ProjID>19</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>MDSHA</ProjName>
+      <ProjID>88</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>199</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS ProjectWise</ProjName>
+      <ProjID>51</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>29</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>Westside Extension</ProjName>
+      <ProjID>193</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>WMATA</ProjName>
+      <ProjID>76</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Washington, D.C. (I-Street)</SiteName>
+    <SiteID>91</SiteID>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Waves, NC</SiteName>
+    <SiteID>98</SiteID>
+    <Projects>
+      <ProjName>PCG Projects</ProjName>
+      <ProjID>180</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>West Palm Beach, FL</SiteName>
+    <SiteID>52</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>68</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PGS Projects</ProjName>
+      <ProjID>188</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>181</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Westminister, CO</SiteName>
+    <SiteID>80</SiteID>
+    <Projects>
+      <ProjName>PTG Projects</ProjName>
+      <ProjID>139</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+    <Projects>
+      <ProjName>PTG ProjectWise</ProjName>
+      <ProjID>16</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Wilmington, DE</SiteName>
+    <SiteID>92</SiteID>
+    <Projects>
+      <ProjName>PEI ProjectWise</ProjName>
+      <ProjID>46</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Win7-32 Solution (prior authorization required)</SiteName>
+    <SiteID>2</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>Winnipeg, Manitoba</SiteName>
+    <SiteID>105</SiteID>
+    <Projects>
+      <ProjName>PEI Projects</ProjName>
+      <ProjID>192</ProjID>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>zOffline Access (prior authorization required)</SiteName>
+    <SiteID>30</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>zRemote Access</SiteName>
+    <SiteID>36</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>zTraining Applications</SiteName>
+    <SiteID>35</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+</root>

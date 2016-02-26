@@ -134,7 +134,9 @@
     <Content Include="images\ParStream15390PRE.HTA" />
     <Content Include="images\TRANSPORTATION.png" />
     <Content Include="index.html" />
+    <Content Include="ManageProjectTree.html" />
     <Content Include="ProjectTree.html" />
+    <Content Include="ProjectTree.xml" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="SPA\Content\css\autoComplete.css" />
