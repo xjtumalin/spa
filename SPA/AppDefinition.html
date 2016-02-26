@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Applition Definition</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+                <h1>Application Definition</h1>
+            <p>This form to define Application</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" class="form-control" id="usr" value="Autodesk AutoCAD 2015 (SP2) ">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Abbr:</label>
+                    <input type="text" class="form-control" id="usr" value="AutoCAD">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Description:</label>
+                    <input type="text" class="form-control" id="usr" value="Autodesk AutoCAD 2015 (SP2) with Raster Design - Offline">
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Version:</label>
+                    <input type="text" class="form-control" id="usr" value="9.18">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Publisher:</label>
+                    <select class="form-control" id="sel1">
+                        <option>AutoDesk</option>
+                        <option>Bentley Systems</option>
+                        <option>Codeware</option>
+                        <option>Midnight Software</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Type:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Type One</option>
+                        <option>Type Two</option>
+                        <option>Type Three</option>
+                        <option>Type Four</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Accounting Level:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Level One</option>
+                        <option>Level Two</option>
+                        <option>Level Three</option>
+                        <option>Level Four</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">License Server:</label>
+                    <select class="form-control" id="sel1">
+                        <option>License Server One</option>
+                        <option>License Server Two</option>
+                        <option>License Server Three</option>
+                        <option>License Server Four</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4"><br /><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></div>
+</div>
+        <hr />
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="pill" href="#ostab0">All OS</a></li>
+            <li><a data-toggle="pill" href="#ostab1">Windows 10</a></li>
+            <li><a data-toggle="pill" href="#ostab2">Windows 8</a></li>
+            <li><a data-toggle="pill" href="#ostab3">Windows 7</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="ostab0" class="tab-pane fade in active">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Attribute Name</th>
+                            <th>Attribute Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="12"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Invocation</td>
+                            <td><input type="text" value="C:\Program Files\Autodesk\AutoCAD 2015\acad.exe" style="width:100%" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Altnative Invocation</td>
+                            <td><input type="text" value="C:\Program Files\Autodesk\AutoCAD 2015\acad.exe" style="width:100%" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>ToMonitor</td>
+                            <td><input type="text" value="PowerInRoads.exe" style="width:100%" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Working Dir</td>
+                            <td><input type="text" value="disc || subp || proj || [EDEClientWorkDir]" style="width:100%" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Args</td>
+                            <td><input type="text" value="/product ACAD /language &quot;en-US&quot; " style="width:100%" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ostab1" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th>Attribute Name</th>
+                            <th>Attribute Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><button type="button" class="btn btn-primary">Add Attribute</button><button type="button" class="btn btn-danger">Delete Attribute</button></td>
+                        </tr>
+                        <tr>
+                            <td>Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Altnative Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>ToMonitor</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Working Dir</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Args</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ostab2" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th>Attribute Name</th>
+                            <th>Attribute Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Altnative Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>ToMonitor</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Working Dir</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Args</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ostab3" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th>Attribute Name</th>
+                            <th>Attribute Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Altnative Invocation</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>ToMonitor</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Working Dir</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>Args</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="pill" href="#tab0">Dependencies</a></li>
+            <li><a data-toggle="pill" href="#tab1">Conflicts</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab0" class="tab-pane fade in active">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="width:5%">Order</th>
+                            <th>Dependency Name</th>
+                            <th>Dependency Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="12">
+                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>1</td>
+                            <td>.NET Framework 4.1.5</td>
+                            <td>Description for .NET Framework 4.1.5 </td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>2</td>
+                            <td>Java SDK 1.8</td>
+                            <td>Description for Java SDK 1.8 </td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>3</td>
+                            <td>Acrobat PDF 10.0</td>
+                            <td>Description for Acrobat PDF 10.0</td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>4</td>
+                            <td>Microsoft Office 2013</td>
+                            <td>Microsoft Office 2013</td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="tab1" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Conflict Name</th>
+                            <th>Conflict Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="12">
+                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Autodesk AutoCAD 2014</td>
+                            <td><input type="text" style="width:100%" /></td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>.NET Framework 3.5</td>
+                            <td><input type="text" style="width:100%" /></td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>Java SDK 1.7</td>
+                            <td><input type="text" style="width:100%" /></td>
+                            <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row"><div class="form-group">
+    <label for="comment">Comment:</label>
+    <textarea class="form-control" rows="5" id="comment"></textarea>
+</div> </div>
+        <div class="row"><div class="col-md-8 col-md-offset-4"><button class="btn-success">Save</button></div> </div>
+    </div>
+
+
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="content/js/jquery/jquery.js"></script>
+    <script src="content/js/bootstrap.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+</body>
+</html>

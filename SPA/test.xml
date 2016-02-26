@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <Sites>
+    <SiteName>!Numecent Test Site 1 (Organizational)</SiteName>
+    <SiteID>109</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>!Numecent Test Site 2 (Geographic)</SiteName>
+    <SiteID>110</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Autodesk Training</SiteName>
+    <SiteID>106</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+  <Sites>
+    <SiteName>.Installations (ftp) (prior authorization required)</SiteName>
+    <SiteID>7</SiteID>
+    <Projects>
+      <Subprojects>
+        <Disciplines />
+      </Subprojects>
+    </Projects>
+  </Sites>
+</root>

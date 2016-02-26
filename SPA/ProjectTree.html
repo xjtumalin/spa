@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Project Tree</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link href="content/css/vtree.css" rel="stylesheet">
+    <link href="content/css/htree.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <!--<div class="jumbotron">
+            <h1>Project Tree</h1>
+            <p>This form to define Application</p>
+        </div>-->
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="pill" href="#vtab">Vertical Project Tree</a></li>
+            <li><a data-toggle="pill" href="#htab">Horizontal Project Tree</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="vtab" class="tab-pane fade in active">
+                <div class="vtree" id="treeroot">
+                </div>
+            </div>
+            <div id="htab" class="tab-pane fade">
+                <div class="htree">
+                    <ul>
+                        <li>
+                            <span class="badge badge-success"> <a href="#"><i class="icon-minus-sign"></i>Parent</a></span>
+                            <ul>
+                                <li>
+                                    <a href="#">Child</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Grand Child</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Child</a>
+                                    <ul>
+                                        <li><a href="#">Grand Child</a></li>
+                                        <li>
+                                            <a href="#">Grand Child</a>
+                                            <ul>
+                                                <li>
+                                                    <a href="#">Great Grand Child</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Great Grand Child</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Great Grand Child</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Grand Child</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="content/js/jquery/jquery.js"></script>
+        <script src="content/js/bootstrap.min.js"></script>
+
+        <!-- Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script>
+        $().ready(function () {
+
+            var ulNode = $('<ul></ul>');
+            $.ajax({
+                type: "GET",
+                url: "test.xml",
+                dataType: "xml",
+                success: function (xml) {
+                    $(xml).find('Sites').each(function () {
+                        var title = $(this).find('SiteName').text();
+                        var cNode = $('<li><a href="#">' + title + '</a></li>');
+                        ulNode.append(cNode);
+
+                    });
+                }
+            });
+            $("#treeroot").append(ulNode);
+        });
+
+        function buildTree()
+        {
+
+        }
+    </script>
+</body>
+</html>

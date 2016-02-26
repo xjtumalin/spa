@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Space Definition</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron">
+                <h2>SPACE DEFINITION (Application Assigment)</h2>
+                <p>This form to define SPACE</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Project Structure: <small><abbr title="Site Level">Site1</abbr> > Project1 > Sub-Project1 > Discipline1 > Job/WBS</small> </h2>
+                <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#treeModal" data-remote="ProjectTree.html">Change Project</button>
+                <div class="modal fade" id="treeModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h3>Modal Body</h3>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" class="form-control" id="usr" value="Demo Space ">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Abbr:</label>
+                    <input type="text" class="form-control" id="usr" value="DS">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Description:</label>
+                    <input type="text" class="form-control" id="usr" value="Template Space for Demostration">
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">License Server:</label>
+                    <select class="form-control" id="sel1">
+                        <option>License Server One</option>
+                        <option>License Server Two</option>
+                        <option>License Server Three</option>
+                        <option>License Server Four</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Publisher:</label>
+                    <select class="form-control" id="sel1">
+                        <option>AutoDesk</option>
+                        <option>Bentley Systems</option>
+                        <option>Codeware</option>
+                        <option>Midnight Software</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Type:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Type One</option>
+                        <option>Type Two</option>
+                        <option>Type Three</option>
+                        <option>Type Four</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+
+
+        <h3>Applications</h3>
+        <div id="tab0" class="tab-pane fade in active">
+            <table class="table table-condensed table-bordered table-striped volumes">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="width:5%">Order</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>License Server</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="12">
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>1</td>
+                        <td>Bentley Power InRoads V8i_SS4 08.11.09.789</td>
+                        <td>Description for Bentley Power InRoads V8i_SS4 08.11.09.789 </td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>2</td>
+                        <td>ESRI 10.3 ArcMap - ArcView</td>
+                        <td>Description for ESRI 10.3 ArcMap - ArcView </td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>3</td>
+                        <td>Autodesk AutoCAD 2015 (SP2) with Raster Design - Offline</td>
+                        <td>Description for Autodesk AutoCAD 2015 (SP2) with Raster Design - Offline</td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>4</td>
+                        <td>ProjectWise V8i_SS4 with AutoCAD Civil 3D 2015</td>
+                        <td>Description for ProjectWise V8i_SS4 with AutoCAD Civil 3D 2015</td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <h3>Project Parameters</h3>
+        <div id="tab0" class="tab-pane fade in active">
+            <table class="table table-condensed table-bordered table-striped volumes">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="12">
+                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>1</td>
+                        <td>Bentley Power InRoads V8i_SS4 08.11.09.789</td>
+                        <td>Description for Bentley Power InRoads V8i_SS4 08.11.09.789 </td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>2</td>
+                        <td>ESRI 10.3 ArcMap - ArcView</td>
+                        <td>Description for ESRI 10.3 ArcMap - ArcView </td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>3</td>
+                        <td>Autodesk AutoCAD 2015 (SP2) with Raster Design - Offline</td>
+                        <td>Description for Autodesk AutoCAD 2015 (SP2) with Raster Design - Offline</td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>4</td>
+                        <td>ProjectWise V8i_SS4 with AutoCAD Civil 3D 2015</td>
+                        <td>Description for ProjectWise V8i_SS4 with AutoCAD Civil 3D 2015</td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-barcode"></span></button></td>
+                        <td><button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>Look Up</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row"><div class="col-md-8 col-md-offset-4"><button class="btn-success btn-lg">Save</button></div> </div>
+    </div>
+
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="content/js/jquery/jquery.js"></script>
+    <script src="content/js/bootstrap.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+</body>
+</html>
