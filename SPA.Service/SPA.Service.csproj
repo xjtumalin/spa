@@ -225,6 +225,7 @@
       <DependentUpon>ParsonDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\appViewModel.cs" />
+    <Compile Include="Models\funcViewModel.cs" />
     <Compile Include="ParsonDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

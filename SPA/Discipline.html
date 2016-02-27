@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Discipline Definition</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+                <h1>Discipline Definition</h1>
+            <p>This form to define Discipline. so far in Parsons's system, Discipline is only assigned to sub project, but there's a table to save association between discipline and project.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" class="form-control" id="usr" value="Plumbing">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Abbr:</label>
+                    <input type="text" class="form-control" id="usr" value="PL">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Description:</label>
+                    <input type="text" class="form-control" id="usr" value="Plumbing">
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Cost Code:</label>
+                    <input type="text" class="form-control" id="usr" value="18">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Discipline Dir Name:</label>
+                    <input type="text" class="form-control" id="usr" value="pl">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Comment:</label>
+                    <input type="text" class="form-control" id="usr" value="">
+                </div>
+            </div>
+        </div>
+        
+        <hr />
+        <h3>Projects/Sub Project Assigned to</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Order</th>
+                    <th>Project Name</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>1</td>
+                    <td>3D CAD Standards</td>
+                    <td>Sub Project </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>2</td>
+                    <td>CAD-Option B</td>
+                    <td>Sub Project </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row"><div class="col-md-8 col-md-offset-4"><button class="btn-success">Assign this Discipline to multiple Projects</button></div> </div>
+        <br />
+        <div class="row"><div class="col-md-8 col-md-offset-4"><button class="btn-success btn-lg">Save</button></div> </div>
+    </div>
+
+
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="content/js/jquery/jquery.js"></script>
+    <script src="content/js/bootstrap.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+</body>
+</html>

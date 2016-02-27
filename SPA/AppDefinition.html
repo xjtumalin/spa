@@ -247,6 +247,8 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="pill" href="#tab0">Dependencies</a></li>
             <li><a data-toggle="pill" href="#tab1">Conflicts</a></li>
+            <li><a data-toggle="pill" href="#tab_action">AppConfigActions</a></li>
+            <li><a data-toggle="pill" href="#tab_info">AppInfoValues</a></li>
         </ul>
         <div class="tab-content">
             <div id="tab0" class="tab-pane fade in active">
@@ -336,7 +338,190 @@
                     </tbody>
                 </table>
             </div>
+            <div id="tab_action" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes" style="table-layout:fixed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Command Str</th>
+                            <th style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">Arg 1</th>
+                            <th style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">Arg 2</th>
+                            <th>Seq Num</th>
+                            <th>Sub Seq Num</th>
+                            <th>Exec Type</th>
+                            <th>Wait</th>
+                            <th>HaltOnError</th>
+                            <th style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="12">
+                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>ActivateApp</td>
+                            <td>2,234</td>
+                            <td></td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>PRE</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>Activate (Layer 1) Win7-32 Solution Appset before installation of VMware Player (Prereqs-General activated to pop up JB Player)</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>ActivateApp</td>
+                            <td>8D1FFA89-DB18-4DE5-8506-763A2F3925DD,</td>
+                            <td></td>
+                            <td>6</td>
+                            <td>3</td>
+                            <td>PREA</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>Activate DeltaCad and Prereqs-Faro</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>ActivateApp</td>
+                            <td>min,390</td>
+                            <td></td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>PRE</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>ActivateApp for Power InRoads SS3 Offline</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>CheckOfflineFlag</td>
+                            <td></td>
+                            <td></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>PREA</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>InstallPrereq</td>
+                            <td>[PrereqInstallProgram]</td>
+                            <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">:VC12_A_x86:VC12_A_x64:VC11_A_x86:VC11_A_x64:VC10_A_x86:VC10_A_x64:VC90_H_x64:VC90_H_x86:VC90_G_x64:VC90_G_x86:VC90_F_x64:VC90_F_x86:VC90_C_x64:VC90_C_x86:</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>PREA</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>Install all VC prerequisites.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="tab_info" class="tab-pane fade">
+                <table class="table table-condensed table-bordered table-striped volumes" >
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>App Info Name</th>
+                            <th>App Info Value</th>
+                            <th>Description</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="12">
+                                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>RunPostHTA</td>
+                            <td>True</td>
+                            <td>Run POST HTA</td>
+                            <td>Needed to remove the Jukebox Player</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>ArcGISLicenseLevel</td>
+                            <td>Professional</td>
+                            <td>ArcMap - ArcInfo</td>
+                            <td>Used by the License config actions</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>PTVLicenseInfo</td>
+                            <td>172.24.101.66</td>
+                            <td>License Server for PTV V4 Licensed VISSIM</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <h3>Application Usage Exception Rules</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>User ID</th>
+                    <th>Workstation</th>
+                    <th>Application</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Deactivate Date</th>
+                    <th>comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>*</td>
+                    <td>*</td>
+                    <td>projman.exe</td>
+                    <td>3/10/2015</td>
+                    <td>1/1/2100</td>
+                    <td></td>
+                    <td>Exclude YORKworks</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>p0010678</td>
+                    <td>*</td>
+                    <td>navigator.exe</td>
+                    <td>9/3/2013</td>
+                    <td>10/3/2013</td>
+                    <td></td>
+                    <td>Exclude Aaron Lambert for SQL Navigator</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>p0084588</td>
+                    <td>PFY6H7P1</td>
+                    <td>*</td>
+                    <td>9/3/2013</td>
+                    <td>10/3/2100</td>
+                    <td></td>
+                    <td>Exclude Danny Sloop, an XP Solution user with traditional installs</td>
+                </tr>
+            </tbody>
+        </table>
         <div class="row"><div class="form-group">
     <label for="comment">Comment:</label>
     <textarea class="form-control" rows="5" id="comment"></textarea>

@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>AppGroup</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+                <h1>Application Group Definition</h1>
+            <p>This form to define AppGroup</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" class="form-control" id="usr" value="CSI">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Abbr:</label>
+                    <input type="text" class="form-control" id="usr" value="CSI">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="usr">Description:</label>
+                    <input type="text" class="form-control" id="usr" value="Computers & Structures">
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="usr">Comment:</label>
+                    <input type="text" class="form-control" id="usr" value="Requires Colon separator for LSHOST variable">
+                </div>
+            </div>
+
+        </div>
+        
+        <h3>Applications in this Group</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>42</td>
+                    <td>CSiBridge 15.1.1</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>44</td>
+                    <td>SAP 2000 14.2.5</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>46</td>
+                    <td>SAFE 12.3.1</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>456</td>
+                    <td>SAP 2000 15.2.1</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>504</td>
+                    <td>CSiBridge 15.2.0</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>821</td>
+                    <td>CSiBridge 2015 17.1.1</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>832</td>
+                    <td>SAP 2000 17.1.1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>App Group ConfigActions</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>SeqNum</th>
+                    <th>Sub SeqNum</th>
+                    <th>ExecType</th>
+                    <th>Wait</th>
+                    <th>HaltOnError</th>
+                    <th>CommandStr</th>
+                    <th>Arg1</th>
+                    <th>Arg3</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>PRE</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>cmd /c  setx LSHOST</td>
+                    <td>[CSILicenseInfo]</td>
+                    <td></td>
+                    <td>Points to CSI License Servers</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>PRE</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>cmd /c </td>
+                    <td>[EDEDrive]\Apps\Utilities\UnSet.vbs LSFORCEHOST</td>
+                    <td></td>
+                    <td>Remove the LSFORCEHOST variable</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>PRE</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>Display_Message</td>
+                    <td>To maximize the availability of licenses for this application, please be sure to close the application when it's not actually being used.</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>App Group InfoValues</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Group Info Name</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>RunPostHTA</td>
+                    <td>True</td>
+                    <td>Run POST HTA</td>
+                    <td>Needed to remove license settings</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>App Group Site Assignments</h3>
+        <table class="table table-condensed table-bordered table-striped volumes">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Site</th>
+                    <th>SeqNum</th>
+                    <th>Sub SeqNum</th>
+                    <th>ExecType</th>
+                    <th>Wait</th>
+                    <th>HaltOnError</th>
+                    <th>CommandStr</th>
+                    <th>Arg1</th>
+                    <th>Arg2</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="12">
+                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>AIKEN</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>PRE</td>
+                    <td>True</td>
+                    <td>False</td>
+                    <td>DeleteFiles</td>
+                    <td>C:\windows\Downloaded Program Files\,IDrop.ocx</td>
+                    <td></td>
+                    <td>Autodesk IDrop File Removal.</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>AIKEN</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>PRE</td>
+                    <td>True</td>
+                    <td>False</td>
+                    <td>DeleteFiles</td>
+                    <td>C:\windows\Downloaded Program Files\,IDrop.ocx</td>
+                    <td></td>
+                    <td>Autodesk IDrop File Removal.</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td>AIKEN</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>PRE</td>
+                    <td>True</td>
+                    <td>False</td>
+                    <td>DeleteFiles</td>
+                    <td>C:\windows\Downloaded Program Files\,IDrop.ocx</td>
+                    <td></td>
+                    <td>Autodesk IDrop File Removal.</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="row"><div class="col-md-8 col-md-offset-4"><button class="btn-success">Save</button></div> </div>
+    </div>
+
+
+
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="content/js/jquery/jquery.js"></script>
+    <script src="content/js/bootstrap.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
+</body>
+</html>

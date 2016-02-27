@@ -24,19 +24,18 @@ namespace SPA.Service.Controllers
             //return projs.ToList();
 
 
-            var srs = from s in db.TempOrgs
+            var srs = from s in db.Functions
                       select s;
             return srs.ToList();
                       
         }
 
         // GET api/values/5
-        public List<appViewModel> Get(string txt)
+        public List<funcViewModel> Get(int id)
         {
-            var apps = from a in db.Applications
-                       where a.AppName.Contains(txt)
+            var apps = from a in db.Functions
                        select a;
-            var apps_v = AutoMapper.Mapper.Map<List<Application>, List<appViewModel>>(apps.ToList());
+            var apps_v = AutoMapper.Mapper.Map<List<Function>, List<funcViewModel>>(apps.ToList());
 
             return apps_v;
         }

@@ -12,6 +12,7 @@ namespace SPA.Service
         {
             AutoMapper.Mapper.Initialize(config=>{
                 config.CreateMap<Application,appViewModel>();
+                config.CreateMap<Function, funcViewModel>();
             });
         }
     }
