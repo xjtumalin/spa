@@ -90,7 +90,7 @@
                         var title = $(this).find('SiteName').text();
                         var cNode = $('<li><a href="#">' + title + '</a></li>');
                         ulNode.append(cNode);
-                        buildProjectTree(cNode, $(this), 'Projects ProjName');
+                        buildProjectTree(cNode, $(this), level[level_idx].SearchPath);
 
                         //if($(this).find('Projects ProjName').length>0)
                         //{
@@ -107,7 +107,10 @@
             });
             $("#treeroot").append(ulNode);
         });
-
+        var level = [{ "Name": "Project", "SearchPath": "Projects ProjName", },
+                     { "Name": "Sub Project", "SearchPath": "Subprojects SubpName" },
+                     { "Name": "Discipline", "SearchPath": "Disciplines DiscName" }];
+        var level_idx = 0;
         function buildProjectTree(rootEle,data,path)
         {
             if(data.find(path).length>0)
@@ -115,11 +118,10 @@
                 var ulNode = $('<ul></ul>');
                 data.find(path).each(function () {
                     var title = $(this).text();
-                    var level = 'Project Level';
+                    var level = level[level_idx].Name+" Level";
                     var id = $(this).parent().find('ProjID').text();
                     var cNode = $('<li><a href="#" onclick="alert(\'Project Id='+id+'\')">' + title + '</a></li>');
                     ulNode.append(cNode);
-
                     buildSubProjectTree(cNode, $(this).parent(), 'Subprojects SubpName');
                 });
                 rootEle.append(ulNode);
